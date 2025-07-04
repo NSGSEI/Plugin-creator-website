@@ -1,6 +1,0 @@
-# Empty
-
-## Example
-```json
-"frames": []
-```
