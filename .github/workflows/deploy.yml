@@ -24,7 +24,7 @@ jobs:
       - name: Build the web project
         run: |
           npm install
-          npm run dev
+          npm run build
 
       - name: Build the docs
         run: |
