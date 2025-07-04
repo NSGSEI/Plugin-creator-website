@@ -1,6 +1,6 @@
 //import './assets/main.css'
 import './assets/testing.css'
-import '../node_modules/primeicons/primeicons.css'
+// PrimeIcons CSS已通过CDN在index.html中引入
 
 import { createApp } from 'vue'
 import App from './App.vue'
