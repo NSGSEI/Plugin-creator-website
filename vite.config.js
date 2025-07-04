@@ -12,7 +12,7 @@ export default defineConfig({
     '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),
     'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   },
-  base: '/Plugin-creator-website/', // 请根据您的实际仓库名称修改
+  base: 'https://nsgsei.github.io/Plugin-creator-website/', // 请根据您的实际仓库名称修改
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
