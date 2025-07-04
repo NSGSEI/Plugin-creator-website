@@ -1,6 +1,6 @@
 //import './assets/main.css'
 import './assets/testing.css'
-import 'primeicons/primeicons.css'
+import '../node_modules/primeicons/primeicons.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
