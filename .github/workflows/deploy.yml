@@ -1,19 +1,17 @@
-name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
-      - master  # 根据您的实际分支名称修改
-
+      - master
+name: Deploy website
 jobs:
-  deploy:
+  web-deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
@@ -33,12 +31,15 @@ jobs:
           pip install poetry
           poetry install
           poetry run mkdocs build
-          mkdir -p ../dist/docs  # 创建docs目录
-          mv ./site/* ../dist/docs/  # 将文档内容移动到dist/docs
+          mv ./site/ ../dist/docs
         working-directory: ./docs
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Sync files
+        uses: SamKirkland/web-deploy@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          target-server: ${{ secrets.SERVER_IP }}
+          remote-user: deployment
+          private-ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-port: 22
+          source-path: ./dist/
+          destination-path: /var/www/vhosts/pca.svetikas.lt/public/
