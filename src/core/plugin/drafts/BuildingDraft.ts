@@ -205,7 +205,7 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
         this.width = new NumberAttribute({
             plugin: this.plugin, id: "width",
             name: "Width",
-            description: "Tile width of the base of the building. Each tile has a pixel size of 32x16.",
+            description: "建筑基础的瓦片宽度。每个瓦片的像素大小为32x16。",
             required: true,
             defaultValue: 1,
             validation: {minValue: 1, maxValue: 16}
@@ -214,8 +214,7 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
         this.height = new NumberAttribute({
             plugin: this.plugin, id: "height",
             name: "Height",
-            description: "Tile width of the base of the building. " +
-                "Has to be the same as width, as only squared buildings are possible.",
+            description: "建筑基础的瓦片高度。必须与宽度相同，因为只支持方形建筑。",
             required: true,
             defaultValue: 1,
             validation: {minValue: 1, maxValue: 16},
@@ -229,100 +228,96 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
 
         this.decoFrames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "deco frames",
-            name: "Deco frames", description: "...",
+            name: "Deco frames", description: "装饰帧，用于建筑的装饰部分。",
             factory: new FrameFactory()
         })
         this.decoFramesWinter = new ListAttribute<Frame>({
             plugin: this.plugin, id: "deco frames winter",
-            name: "Deco winter frames", description: "...",
+            name: "Deco winter frames", description: "冬季装饰帧，用于冬季场景下建筑的装饰部分。",
             factory: new FrameFactory()
         })
 
         this.waterBorderFrames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "water border frames",
-            name: "Water border frames", description: "...",
+            name: "Water border frames", description: "水域边界帧，用于建筑与水交界处的视觉效果。",
             factory: new FrameFactory()
         })
         this.waterBorderFramesWinter = new ListAttribute<Frame>({
             plugin: this.plugin, id: "water border frames winter",
-            name: "Water border winter frames", description: "...",
+            name: "Water border winter frames", description: "冬季水域边界帧，用于冬季场景下建筑与水交界处的视觉效果。",
             factory: new FrameFactory()
         })
 
         this.groundFrames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "ground frames",
-            name: "Ground frames", description: "...",
+            name: "Ground frames", description: "地面帧，用于建筑底部的地面视觉效果。",
             factory: new FrameFactory()
         })
         this.groundFramesWinter = new ListAttribute<Frame>({
             plugin: this.plugin, id: "ground frames winter",
-            name: "Ground winter frames", description: "...",
+            name: "Ground winter frames", description: "冬季地面帧，用于冬季场景下建筑底部的地面视觉效果。",
             factory: new FrameFactory()
         })
 
         this.randomFrame = new BooleanAttribute({
             plugin: this.plugin, id: "random frame",
-            name: "Random frame", description: "If true, a random frame will be used when building the building.",
+            name: "Random frame", description: "如果为true，建造时将随机使用一个帧。",
             defaultValue: true
         })
 
         this.needsRoad = new BooleanAttribute({
             plugin: this.plugin, id : "needs road",
-            name: "Needs road", description: "Whether the building needs a road connection to operate.",
+            name: "Needs road", description: "建筑是否需要道路连接才能运作。",
             required: false, defaultValue: true
         })
         this.needsLand = new BooleanAttribute({
             plugin: this.plugin, id: "needs land",
-            name: "Needs land", description: "Whether the building needs to be on land to be built.",
+            name: "Needs land", description: "建筑是否需要建在陆地上。",
             required: false, defaultValue: null
         })
         this.needsWater = new BooleanAttribute({
             plugin: this.plugin, id: "needs water",
-            name: "Needs water", description: "Whether the building needs to be on water to be built.",
+            name: "Needs water", description: "建筑是否需要建在水面上。",
             required: false, defaultValue: null
         })
         this.level = new LevelAttribute({
             plugin: this.plugin, id: "level",
             name: "Level",
-            description: "Building wealth level. Only applicable for RCI buildings.",
+            description: "建筑财富等级。仅适用于RCI建筑。",
             validation: {minValue: 1, maxValue: 3}
         })
         this.density = new NumberAttribute({
             plugin: this.plugin, id: "density",
             name: "Density",
-            description: "Used for expectation calculations, as more dense buildings usually have higher expectations. " +
-                "By default the number of people in the building divided by the building's area.",
+            description: "用于期望值计算，因为更高密度的建筑通常有更高的期望值。默认情况下是建筑中人数除以建筑面积。",
             isInteger: false,
             defaultValue: -1.0
         })
         this.buildHeight = new NumberAttribute({
             plugin: this.plugin, id: "build height",
             name: "Build height",
-            description: "The height of the building in 8px units. Should be used when frames are not provided. " +
-                "Otherwise, game will calculate it on its own. " +
-                "Used for auto build time calculation, collision checks, " +
-                "clipping during drawing, helicopters and much more."
+            description: "建筑高度，以8像素为单位。当未提供帧时应使用此值。否则游戏会自行计算。用于自动建造时间计算、碰撞检测、绘制时的裁剪、直升机等多种用途。"
         })
 
         this.budgetItem = new StringAttribute({
             plugin: this.plugin, id : "budget item",
-            name : "Budget item", description : "ID of the budget draft to put the building under in estate menu of the city."
+            name : "Budget item", description : "预算草案ID，用于将建筑归类到城市资产菜单中的相应预算项下。"
         })
         this.bulldozePrice = new NumberAttribute({
             plugin: this.plugin, id: "bulldoze price",
             name: "Bulldoze price",
-            description: "Price to bulldoze the building.",
+            description: "拆除建筑所需的价格。",
             validation: {minValue: 0, maxValue: 10_000_000}
         })
 
         this.destroyable = new BooleanAttribute({
             plugin: this.plugin, id : "destroyable",
-            name : "Destroyable", description : "Whether the building can be destroyed by disasters.",
+            name : "Destroyable", description : "建筑是否可以被灾难摧毁。",
             required : false, defaultValue : true
         })
         this.destroyableByFun = new BooleanAttribute({
             plugin: this.plugin, id : "destroyable by fun",
-            name : "Destroyable by fun", description : "Whether the building can be destroyed by fun.",
+            name : "Destroyable by fun", description : "建筑是否可以被娱乐设施摧毁。",
             required : false, defaultValue : true
         })
         this.destruction = new StringAttribute({
@@ -352,14 +347,14 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
         this.priceFactor = new NumberAttribute({
             plugin: this.plugin, id: "price factor",
             name: "Price factor",
-            description: "...",
+            description: "价格因子，用于调整建筑的基础价格。",
             isInteger: false
         })
 
         this.waterWaste = new NumberAttribute({
             plugin: this.plugin, id: "water waste",
             name: "Water waste",
-            description: "How much waste water the building produces.",
+            description: "建筑产生的废水量。",
             isInteger: false
         })
         this.drawGround = new BooleanAttribute({
@@ -445,9 +440,7 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
         this.rciCars = new NumberAttribute({
             plugin: this.plugin, id: "rci cars",
             name: "RCI cars",
-            description: "Amount of RCI cars that the building spawns. " +
-                "By default, it's usually the amount of residents + workers in a building. " +
-                "Used to estimate rci car spawning and targeting."
+            description: "建筑生成的RCI车辆数量。默认情况下，通常是建筑中居民+工人的数量。用于估算RCI车辆的生成和目标定位。"
         })
 
         this.supportsSlope = new BooleanAttribute({
@@ -513,8 +506,7 @@ export class BuildingDraft extends BuildingBasedDraft implements BuildingDraftAt
         this.people = new NumberAttribute({
             plugin: this.plugin, id: "people",
             name: "People",
-            description: "Amount of inhabitants or workers the building has. " +
-                "Only applies for RCI buildings."
+            description: "建筑中的居民或工人数量。仅适用于RCI建筑。"
         })
 
         this.autoBuild = new BooleanAttribute({

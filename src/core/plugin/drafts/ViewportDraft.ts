@@ -42,7 +42,7 @@ export class ViewportDraft extends Draft implements ViewportDraftAttributes {
         this.frames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "frames",
             name: "Frames",
-            description: "Frames define the main texture of your draft. Usually, this means the textures of a building, category and etc.",
+            description: "帧定义了您草稿的主要纹理。通常，这意味着建筑、类别等的纹理。",
             required: true,
             customValidator: () => {
                 if (this.frames.value.length == 0) {

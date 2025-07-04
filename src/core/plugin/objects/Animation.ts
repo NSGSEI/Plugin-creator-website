@@ -17,7 +17,7 @@ export class AnimationFactory implements AttributeOwnerFactory, AttributeOwnerFa
 
     getOptions() {
         return {
-            "Add an animation": ((plugin: Plugin) => new Animation(plugin)),
+            "添加动画": ((plugin: Plugin) => new Animation(plugin)),
         }
     }
 }

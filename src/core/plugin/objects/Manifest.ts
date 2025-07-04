@@ -43,11 +43,11 @@ export class Manifest extends AttributeOwner {
         this.id = new StringAttribute({
             plugin: this.plugin, id: "id",
             name: "Manifest ID",
-            description: "ID of the plugin manifest. This should be a unique identifier for your plugin as a whole.",
+            description: "插件清单的ID。这应该是您整个插件的唯一标识符。",
             required: true, defaultValue: () => {return "$manifest-" + generateId()},
             customValidator: () => {
                 if (this.id.value.trim().length < 5) {
-                    this.id.addError("ID of your plugin must be at least 5 characters long.")
+                    this.id.addError("您的插件ID必须至少有5个字符长。")
                 }
             }
         })
@@ -55,15 +55,15 @@ export class Manifest extends AttributeOwner {
         this.version = new NumberAttribute({
             plugin: this.plugin, id: "version",
             name: "Version",
-            description: "Version of the plugin. " +
-                "Should be kept 1 for first the version and incremented for each update.",
+            description: "插件的版本。" +
+                "第一个版本应保持为1，每次更新时递增。",
             required: true,
             defaultValue: 1,
             validation: {minValue: 1, maxValue: 999999},
             customValidator: () => {
                 if (this.version.value < 1) {
                     this.version.addError(
-                        "Manifest version is invalid. It must be a positive number and equal to at least 1."
+                        "清单版本无效。它必须是一个正数且至少为1。"
                     )
                 }
             }
@@ -71,33 +71,33 @@ export class Manifest extends AttributeOwner {
 
         this.title = new StringAttribute({
             plugin: this.plugin, id : "title",
-            name: "Name", description: "The name or title of the plugin.",
+            name: "Name", description: "插件的名称或标题。",
             required: true,
             customValidator: () => {
                 if (this.title.value.trim().length < 5) {
-                    this.title.addError("Title of your plugin must be at least 5 characters long.")
+                    this.title.addError("您的插件标题必须至少有5个字符长。")
                 }
             }
         })
 
         this.text = new StringAttribute({
             plugin: this.plugin, id : "text",
-            name: "Description", description: "Description of the plugin.",
+            name: "Description", description: "插件的描述。",
             required: true,
             customValidator: () => {
                 if (this.text.value.trim().length < 10) {
-                    this.text.addError("Description of your plugin must be at least 10 characters long.")
+                    this.text.addError("您的插件描述必须至少有10个字符长。")
                 }
             }
         })
 
         this.author = new StringAttribute({
             plugin: this.plugin, id: "author",
-            name: "Author", description: "Author of the plugin.",
+            name: "Author", description: "插件的作者。",
             required: true,
             customValidator: () => {
                 if (this.author.value.trim().length < 5) {
-                    this.author.addError("Author field of your plugin must be at least 5 characters long.")
+                    this.author.addError("您的插件作者字段必须至少有5个字符长。")
                 }
             }
         })

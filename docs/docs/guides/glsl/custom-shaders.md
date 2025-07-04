@@ -1,21 +1,21 @@
-# Custom Shaders 
+# 自定义着色器
 
-What are shaders and what can we do with them in the context of plugins? This guide tries to give you some insights on that.
-For discussion you can use [this topic](https://forum.theotown.com/viewtopic.php?f=42&t=16849).
+什么是着色器？在插件中我们可以用它们做什么？本指南将为您提供一些见解。
+讨论可以使用[这个主题](https://forum.theotown.com/viewtopic.php?f=42&t=16849)。
 
-Due to the complexity of the topic I will complete the sections as I find time to.
-For now I am happy to finally preset _something_ you can play with. To fully take advantage of shader plugins more knowledge about the GLSL Shading Language, UV-Coordinates, other uniform variables etc. will be required. The Plugin Creator Tools in the plugin store also contains some shaders that can be used for testing purposes.
+由于主题的复杂性，我将逐步完善各个部分。
+现在我很高兴能提供一些您可以尝试的内容。要充分利用着色器插件，需要更多关于GLSL着色语言、UV坐标、其他uniform变量等的知识。插件商店中的插件创建工具也包含一些可用于测试的着色器。
 
-## 1. General Overview
-Before we start about how shader plugins can be written I want to settle down on the following: Writing shaders is hard. Especially if you must write shader code that is compatible with different platforms, drivers, OSs and must be performant while doing so. The OpenGL shading language (GLSL) that is used for writing shaders is not forgiving about syntax mistakes nor does it provide easy-to-use debugging facilities if something goes wrong. Error messages can be cryptic sometimes.
+## 1. 概述
+在开始介绍如何编写着色器插件之前，我想先说明以下几点：编写着色器很难。特别是当您需要编写兼容不同平台、驱动程序和操作系统的着色器代码，同时还要保证性能时。用于编写着色器的OpenGL着色语言(GLSL)对语法错误毫不宽容，在出现问题时也不提供易于使用的调试工具。错误信息有时可能很晦涩。
 
-That being said, let's dive into it.
+话虽如此，让我们开始深入了解。
 
-What is a shader? When rendering a game, we essentially tell the GPU to draw a lot of (textured) triangles. This also applies to a pixel game like TheoTown simply because that's what GPUs are optimized for. You may wonder: "Where are these triangles? All I see is pixels." Well, to draw textured rectangles, the game draws two adjacent triangles, so called quads. In this context a textured rectangle is just a rectangular image that may contain transparency in its texture.
+什么是着色器？在渲染游戏时，我们实际上是告诉GPU绘制大量(带纹理的)三角形。这也适用于像TheoTown这样的像素游戏，因为这就是GPU优化的方向。您可能会问："这些三角形在哪里？我只看到像素。"实际上，为了绘制带纹理的矩形，游戏会绘制两个相邻的三角形，即所谓的四边形。在这种情况下，带纹理的矩形只是一个可能包含透明度的矩形图像。
  
 ![](../../assets/guides/custom-shaders/image1.png)
 
-In the early days of GPU hardware, the functionality to draw (textured) triangles was hardwired into the hardware which led to the so-called fixed function pipeline. However, folks noticed that this is a quite limited approach in that it did not allow for “things” (like special effects) that were not integrated into the chips. So, the idea for a more generic approach was born: the programmable rendering pipeline. In that, specific steps of the rendering pipeline can be handled by (small) user provided programs called shaders. These shaders will be executed directly on the GPU and can make use of the GPU’s highly parallel architecture.
+在GPU硬件的早期，绘制(带纹理的)三角形的功能是硬编码在硬件中的，这导致了所谓的固定功能管线。然而，人们注意到这种方法相当有限，因为它不允许实现没有集成到芯片中的"things"(如特效)。因此，诞生了一个更通用的方法：可编程渲染管线。在这种方法中，渲染管线的特定步骤可以由用户提供的小程序(称为着色器)来处理。这些着色器将直接在GPU上执行，并可以利用GPU高度并行的架构。
 
 So, in the specific case of TheoTown, what part of rendering is programmable?
 
@@ -160,20 +160,20 @@ Trigonometry: sin, cos, tan, asin, acos, atan </br>
 General: pow, log2, sqrt, abs, max, min </br>
 Geometrical (work on vector datatypes): length, distance, normalize, reflect
 
-## 3. How the default vertex shader works in detail
+## 3. 默认顶点着色器的工作原理详解
 
-Although the presented default shader code above does “nothing” in terms of looks it still has a significant of code that is needed just to make things work. To get a better understanding of how it achieves this let’s have a deeper look at smaller pieces of the code.
+虽然上面展示的默认着色器代码在视觉效果上"什么都没做"，但它仍然包含大量必要的代码来确保功能正常。为了更好地理解它的工作原理，让我们深入分析代码的各个部分。
 
 ![](../../assets/guides/custom-shaders/image2.png)
 
-The vertex shader is responsible for mapping vertex positions (the vertices of the triangles / quads that will be drawn) to viewport positions. This step is usually needed as our vertex positions use a different coordinate system than the one that represent locations on screen (trivial example: in a 3D world we would map 3D vertices to 2D positions on the screen). In terms of TheoTown vertices are just 2D points and the mapping can be expressed as a combination of applying an offset and a scaling factor. These are provided as so called uniforms that will be filled in by the runtime (it will do so by name):
+顶点着色器负责将顶点位置(将要绘制的三角形/四边形的顶点)映射到视口位置。这一步通常是必要的，因为我们的顶点位置使用的坐标系与表示屏幕位置的坐标系不同(简单例子：在3D世界中，我们会将3D顶点映射到屏幕上的2D位置)。在TheoTown中，顶点只是2D点，映射可以表示为应用偏移和缩放因子的组合。这些作为所谓的uniform变量由运行时提供(它会通过名称来填充):
 
 ```glsl
 uniform vec2 viewport;
 uniform vec2 offset;
 ```
 
-Position is not the only attribute that vertices can have. Other attributes are color (can be used to color the quads) and texture coordinates (used to draw an “image”). We must define them so that the runtime can provide them for us (the naming is important):
+位置并不是顶点唯一的属性。其他属性包括颜色(可用于为四边形着色)和纹理坐标(用于绘制"图像")。我们必须定义它们以便运行时可以提供这些值(命名很重要):
 
 ```glsl
 attribute vec2 vVertex;
@@ -181,14 +181,14 @@ attribute vec4 vColor;
 attribute highp vec2 vTexCoord;
 ```
 
-To use them later the vertex shader has to declare placeholders to “export” them which is what this code is used for:
+为了后续使用这些属性，顶点着色器需要声明占位符来"导出"它们，这就是以下代码的作用:
 
 ```glsl
 varying highp vec2 texCoord;
 varying lowp vec4 vertexColor;
 ```
 
-The mapping logic and filling of exported (varying) variables happens in the main() function:
+映射逻辑和导出(varying)变量的填充发生在main()函数中:
 
 ```glsl
 void main() {
@@ -199,7 +199,7 @@ void main() {
 }
 ```
 
-This function will be called for each vertex (the attribute values will be filled by then automatically). It has to set all of the exported variables and calculate and output the viewport position of the vertex by setting gl_Position.
+这个函数会为每个顶点调用(届时属性值会自动填充)。它必须设置所有导出变量，并通过设置gl_Position来计算和输出顶点在视口中的位置。
 
 ## 4. How the default fragment shader works in detail
 
@@ -207,34 +207,33 @@ The default vertex shader presented above does calculate the coordinate transfor
 
 ![](../../assets/guides/custom-shaders/image3.png)
 
-Due to some compatibility reasons the fragment shader code has to start with a precision statement that states what precision should be used for floating point numbers by default. I recommend to simply take this line as it as and never change it:
+由于一些兼容性原因，片段着色器代码必须以一个precision语句开头，该语句声明默认应使用的浮点数精度。我建议直接保留这行代码不变：
 
 ```glsl
 precision lowp float;
 ```
 
-Like in the vertex shader uniform variables (these are the ones that will be fed in by the environment und usually are constant per frame / drawing unit) can be defined for later use in the main function. Here we define a float saturation value that will contain the color saturation setting of the game. Furthermore, we define the texture that will contain the "world texture" where we will sample the pixel color from. The world texture contains [i]all[/i] graphics of the game. Every "image" within the world texture can therefore be drawn if the texture coords of it are known.
+与顶点着色器类似，可以定义uniform变量(这些变量由环境提供，通常每帧/每个绘制单元保持不变)供后续在主函数中使用。这里我们定义了一个float类型的saturation值，它将包含游戏的色彩饱和度设置。此外，我们还定义了将包含"世界纹理"的texture，我们将从中采样像素颜色。世界纹理包含游戏中[i]所有[/i]图形。因此，只要知道纹理坐标，就可以绘制世界纹理中的每个"图像"。
 
 ```glsl
 uniform sampler2D texture;
 uniform float saturation;
 ```
 
-To use the varying variables defined in the vertex shader, we have to re-define them in the fragment shader. The datatypes and names have to match the ones defined in the vertex shader. Since varyings were previously defined for vertex points only - while fragments are located in between these points - the values will be interpolated for every fragment. This is especially important for the texture coordinates so that drawing them will result in drawing a complete image from the world texture.
+要使用顶点着色器中定义的varying变量，我们必须在片段着色器中重新定义它们。数据类型和名称必须与顶点着色器中的定义匹配。由于varying变量最初只为顶点定义，而片段位于这些顶点之间，因此这些值将为每个片段进行插值。这对于纹理坐标尤其重要，这样绘制它们将导致从世界纹理中绘制完整的图像。
 ```glsl
 varying highp vec2 texCoord;
 varying lowp vec4 vertexColor;
 ```
 
-Like for the vertex shader the fragment shader features a main() function that serves as entry point. It will be called for every pixel / fragment of a triangle and is supposed to output a color by writing it into _gl_FragColor_.
-For the calculation itself we want to do the following:
+与顶点着色器类似，片段着色器也有一个作为入口点的main()函数。它会被三角形的每个像素/片段调用，并通过写入_gl_FragColor_来输出颜色。计算过程需要完成以下步骤：
 
-1. Sample the texture color from the world texture at the location stored in the varying texCoord
-2. Apply the color stored in the varying vertexColor to it
-3. Apply the saturation value stored in the uniform saturation to it
-4. Store the resulting color in gl_FragColor
+1. 从世界纹理中采样存储在varying变量texCoord指定位置的颜色
+2. 应用存储在varying变量vertexColor中的颜色
+3. 应用存储在uniform变量saturation中的饱和度值
+4. 将最终颜色存储在gl_FragColor中
 
-In other words:
+换句话说：
 ```glsl
 void main() {
 	vec4 col = texture2D(texture, texCoord);
@@ -265,10 +264,10 @@ Some ingredients for a cartoon shader:
 
 All of these steps must be implemented in the fragment shader as we want to apply these to individual fragments / pixels. The following steps will build up from the default shader codes.
 
-### Edge detection
-You may have heard of the so called [Sobel operator](https://de.wikipedia.org/wiki/Sobel-Operator) which can be used to calculate edges for any pixel of an image based on its neighbouring 8 pixel colors. This is an option, however, we certainly do not want to sample all 8 neighbouring pixels because that's quite expensive (in fact, texture lookups are probably the most computationally expensive operation in fragment shaders and you should reduce them as much as possible). Instead, we can e.g. use the left and upper neighbour pixel colors and compare them to the center, only.
+### 边缘检测
+你可能听说过所谓的[Sobel算子](https://de.wikipedia.org/wiki/Sobel-Operator)，它可以基于图像中每个像素周围8个相邻像素的颜色来计算边缘。这是一种选择，但我们肯定不希望采样所有8个相邻像素，因为这样相当耗费资源(事实上，纹理查找可能是片段着色器中最耗费计算资源的操作，你应该尽可能减少它们)。相反，我们可以只使用左侧和上方的相邻像素颜色与中心像素进行比较。
 
-Code-wise this may look like this:
+代码实现可能如下所示：
 
 ```glsl
 vec4 col = texture2D(texture, texCoord);
@@ -432,20 +431,20 @@ Uniforms are global values that can be provided by the environment. The followin
 
 
 ```glsl
-uniform vec2 viewport;  // Viewport size (2,2) divided by target render resolution
-uniform vec2 offset;    // Render offset in pixel screen space
-uniform sampler2D texture;  // The texture to sample colors from
-uniform float saturation;   // Saturation with 0 being grayscale and 1 being normal
-uniform float units;    // Deprecated: Amount of textures bound to the sampler; result is always 1 for recent versions of the game
+uniform vec2 viewport;  // 视口大小(2,2)除以目标渲染分辨率
+uniform vec2 offset;    // 像素屏幕空间中的渲染偏移量
+uniform sampler2D texture;  // 用于采样颜色的纹理
+uniform float saturation;   // 饱和度，0表示灰度，1表示正常
+uniform float units;    // 已弃用：绑定到采样器的纹理数量；在最新版本中结果始终为1
 
-uniform float unit;   // Pixel size of the texture; deprecated as it works on square textures, only
-uniform float dUnit;  // 1 divided by pixel size of the texture; can be used to sample with pixel precision from the texture; deprecated as it works on square textures, only
-uniform vec2 unit2;   // Pixel width and height of the texture (new in 1.11.27)
-uniform vec2 dUnit2;  // 1 divided by pixel width, height of the texture; can be used to sample with pixel precision from the texture (new in 1.11.27)
+uniform float unit;   // 纹理的像素大小；已弃用，因为它仅适用于方形纹理
+uniform float dUnit;  // 1除以纹理的像素大小；可用于从纹理中以像素精度采样；已弃用，因为它仅适用于方形纹理
+uniform vec2 unit2;   // 纹理的像素宽度和高度(1.11.27新增)
+uniform vec2 dUnit2;  // 1除以纹理的像素宽度和高度；可用于从纹理中以像素精度采样(1.11.27新增)
 
-uniform float time;       // Time in seconds, always positive, restarts after a while, can be used to animate stuff
-uniform float cityScale;  // Current scaling of the drawn city
-uniform float cityTime;   // City speed dependent animation time
+uniform float time;       // 时间(秒)，始终为正，一段时间后会重置，可用于动画效果
+uniform float cityScale;  // 当前绘制城市的缩放比例
+uniform float cityTime;   // 依赖于城市速度的动画时间
 ```
 
 You can define your own uniform values using the
@@ -497,11 +496,11 @@ Constants are fixed values that will be injected into your shader code by the ga
 - TYPE_OVERLAY
 - TYPE_FENCE (new in 1.10.95)
 
-## 7. Waving tree shader example
+## 7. 树木摇曳着色器示例
 
-Here's an example of how a waving trees shader could be implemented making use of the local quad coords vertex attribute vQuadCoord.
+这是一个利用顶点属性vQuadCoord实现树木摇曳效果的着色器示例。
 
-**vertex.src**:
+**vertex.src**顶点着色器代码:
 ```glsl
 attribute vec2 vVertex;
 attribute vec4 vColor;
@@ -553,7 +552,6 @@ void main() {
 ```
 
 <sub>
-This page has been adapted from
-[a topic](https://forum.theotown.com/viewtopic.php?t=16838)
-on the official TheoTown forum.
+本页面改编自TheoTown官方论坛的
+[这个主题](https://forum.theotown.com/viewtopic.php?t=16838)
 </sub>

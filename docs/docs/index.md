@@ -1,18 +1,18 @@
-# Home
+# 首页
 
-Welcome to the documentation page for TheoTown plugin system.
+欢迎来到TheoTown插件系统的文档页面。
 
-Using plugins you can add your own buildings to the game without modifying the apk (don't do the latter one, we really don't like it).
-You may even share them with others, for example by using this the official forums or the plugin store.
+使用插件，您可以在不修改apk的情况下向游戏添加自己的建筑（请不要修改apk，我们非常不推荐这样做）。
+您还可以与他人分享您的插件，例如通过官方论坛或插件商店。
 
-If you're new to the plugin system and want to get started, check the [getting started](getting-started/writing-a-sample-plugin.md) topic.
+如果您是插件系统的新手并想开始使用，请查看[入门指南](getting-started/writing-a-sample-plugin.md)。
 
-If you're want to check the draft and attribute reference, see [here](draft-types/index.md).
+如果您想查看draft和attribute的参考文档，请点击[这里](draft-types/index.md)。
 
 
-This page is currently work-in-progress. In the future it will hold documentation for all draft types.
+本页面目前仍在建设中。未来它将包含所有draft类型的文档。
 
-Work left to do:
+待完成的工作：
 
-- [ ] Link to the documentation from PCA starting page
-- [ ] Add links to specific attribute documentation from PCA
+- [ ] 从PCA起始页面链接到本文档
+- [ ] 从PCA添加特定attribute文档的链接

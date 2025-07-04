@@ -33,7 +33,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "water",
         name: "Is water",
-        description: "Whether the biome is considered to be water",
+        description: "该生物群系是否被视为水域",
         required: false,
         defaultValue: false
     })
@@ -42,7 +42,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "noise scale",
         name: "Noise scale",
-        description: "...",
+        description: "噪声比例，控制生物群系噪声图的缩放比例",
         isInteger: false,
         defaultValue: 1.0
     })
@@ -50,7 +50,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "noise offset",
         name: "Noise offset",
-        description: "...",
+        description: "噪声偏移量，控制生物群系噪声图的位置偏移",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -58,7 +58,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "noise factor",
         name: "Noise factor",
-        description: "...",
+        description: "噪声因子，控制噪声对生物群系分布的影响强度",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -66,7 +66,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "noise variance",
         name: "Noise variance",
-        description: "...",
+        description: "噪声变化程度，控制生物群系噪声的多样性",
         isInteger: false,
         defaultValue: 1.0
     })
@@ -76,7 +76,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "height center",
         name: "Height center",
-        description: "...",
+        description: "高度中心值，生物群系高度分布的中心点",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -84,7 +84,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "height radius",
         name: "Height radius",
-        description: "...",
+        description: "高度半径，生物群系高度分布的范围",
         isInteger: false,
         defaultValue: 1.0
     })
@@ -92,7 +92,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "height offset",
         name: "Height offset",
-        description: "...",
+        description: "高度偏移量，调整生物群系整体高度的偏移值",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -100,7 +100,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "height factor",
         name: "Height factor",
-        description: "...",
+        description: "高度因子，控制高度对生物群系分布的影响强度",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -110,7 +110,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "deriv center",
         name: "Deriv center",
-        description: "...",
+        description: "梯度中心值，地形坡度分布的中心点",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -118,7 +118,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "deriv radius",
         name: "Deriv radius",
-        description: "...",
+        description: "梯度半径，地形坡度变化的范围",
         isInteger: false,
         defaultValue: 1.0
     })
@@ -126,7 +126,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "deriv offset",
         name: "Deriv offset",
-        description: "...",
+        description: "梯度偏移量，调整地形坡度的整体偏移值",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -134,7 +134,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "deriv factor",
         name: "Deriv factor",
-        description: "...",
+        description: "梯度因子，控制地形坡度对生物群系分布的影响强度",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -144,7 +144,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "offset",
         name: "Offset",
-        description: "...",
+        description: "偏移量，控制生物群系整体分布的位置偏移",
         isInteger: false,
         defaultValue: 0.0
     })
@@ -154,7 +154,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "coverage",
         name: "Coverage",
-        description: "...",
+        description: "覆盖率，控制生物群系在世界中的分布范围",
         isInteger: false,
         defaultValue: 1.0
     })
@@ -162,7 +162,7 @@ export class BiomeDraft extends Draft {
         owner: this,
         id: "precedence",
         name: "Precedence",
-        description: "...",
+        description: "优先级，决定在生物群系重叠时哪个生物群系会被优先选择",
         isInteger: false,
         defaultValue: 1.0
     })

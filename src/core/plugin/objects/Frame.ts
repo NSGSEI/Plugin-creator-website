@@ -50,8 +50,8 @@ export class FrameFactory implements AttributeOwnerFactory, AttributeOwnerFactor
 
     getOptions() {
         return {
-            "Add a custom frame": ((plugin: Plugin) => new BmpFrame(plugin)),
-            "Add an empty frame": ((plugin: Plugin) => new EmptyFrame(plugin))
+            "添加自定义帧": ((plugin: Plugin) => new BmpFrame(plugin)),
+            "添加空帧": ((plugin: Plugin) => new EmptyFrame(plugin))
         }
     }
 
@@ -64,17 +64,17 @@ export abstract class Frame extends AttributeOwner implements IListable {
 
 
 const example_silent_frames = {
-    "silent frames": -1,
-    "x": 0,
-    "y": 0
+    "silent frames": -1, // 静默帧
+    "x": 0, // X坐标
+    "y": 0  // Y坐标
 }
 
 const example_ref = {
-    "ref": 0,
-    "move x": 0,
-    "move y": 0,
-    "count": 1,
-    "silent ": false
+    "ref": 0, // 引用
+    "move x": 0, // X移动
+    "move y": 0, // Y移动
+    "count": 1, // 数量
+    "silent ": false // 静默
 }
 
 class TextureFrame extends Frame {
@@ -86,22 +86,22 @@ class TextureFrame extends Frame {
         "w": 0,
         "h": 0,
 
-        //Shared
-        "target w": 0, // w,
-        "target h": 0, //h
+        //共享
+        "target w": 0, // 宽度,
+        "target h": 0, //高度
         "count": 1,
         "skip width factor": 1,
         "skip height factor": 0,
         "copies": 0,
-        "n": 1, // (copies + 1)
+        "n": 1, // (副本数 + 1)
     }
 
     getDescription(): string {
-        return "";
+        return "纹理帧用于使用已定义的纹理创建帧。";
     }
 
     getTitle(index: number): string {
-        return "";
+        return `帧 ${index} (纹理)`;
     }
 }
 
@@ -123,7 +123,7 @@ class StealFrame extends Frame {
 
     steal = new StringAttribute({
         plugin: this.plugin, id: "steal",
-        name: "Steal", description: "ID of the draft to steal frames from.",
+        name: "窃取", description: "要从中窃取帧的草稿ID。",
         required: true
     })
 
@@ -132,40 +132,40 @@ class StealFrame extends Frame {
 
     frame: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "frame",
-        name: "Frame", description: "Index of the frame to steal."
+        name: "帧", description: "要窃取的帧的索引。"
     })
     count: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "count",
-        name: "Count", description: ""
+        name: "数量", description: "要窃取的帧数量"
     })
     moveX: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "move x",
-        name: "Move x", description: ""
+        name: "X移动", description: "X方向上的移动距离"
     })
     moveY: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "move y",
-        name: "Move y", description: ""
+        name: "Y移动", description: "Y方向上的移动距离"
     })
     handleX: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "handle x",
-        name: "Handle x", description: ""
+        name: "X手柄", description: "X方向上的手柄位置"
     })
     handleY: NumberAttribute = new NumberAttribute({
         plugin: this.plugin, id: "handle y",
-        name: "Handle y", description: ""
+        name: "Y手柄", description: "Y方向上的手柄位置"
     })
     shared = new BooleanAttribute({
         plugin: this.plugin, id: "share",
-        name: "Share", description: "",
+        name: "共享", description: "是否共享帧",
         defaultValue: false
     })
 
     getDescription(): string {
-        return "";
+        return "窃取帧用于从其他草稿中复用帧。";
     }
 
     getTitle(index: number): string {
-        return "";
+        return `帧 ${index} (窃取)`;
     }
 }
 
@@ -176,10 +176,10 @@ export class EmptyFrame extends Frame {
     }
 
     getDescription(): string {
-        return "Empty frame is useful for making invisible or fake frames for whatever purpose."
+        return "空帧用于创建不可见或虚拟帧，可用于各种目的。"
     }
     getTitle(index: number): string {
-        return `Frame ${index} (empty)`
+        return `帧 ${index} (空)`
     }
 }
 
@@ -205,78 +205,78 @@ export class BmpFrame extends Frame {
 
         this.bmp = new FileAttribute({
             plugin: this.plugin, id: "bmp",
-            name: "Image file", description: "The texture file of your draft, usually the building texture.",
+            name: "图像文件", description: "您的草稿的纹理文件，通常是建筑纹理。",
             required: true
         })
 
         this.placeX = new NumberAttribute({
             plugin: this.plugin, id: "place x",
-            name: "Place X", description: "X coordinate to place the frame in the texture space. " +
-                "Only available for privileged drafts.",
+            name: "放置X坐标", description: "在纹理空间中放置帧的X坐标。" +
+                "仅适用于特权草稿。",
             defaultValue: 0
         })
         this.placeY = new NumberAttribute({
             plugin: this.plugin, id: "place y",
-            name: "Place Y", description: "Y coordinate to place the frame in the texture space. " +
-                "Only available for privileged drafts.",
+            name: "放置Y坐标", description: "在纹理空间中放置帧的Y坐标。" +
+                "仅适用于特权草稿。",
             defaultValue: 0
         })
 
         this.x = new NumberAttribute({
             plugin: this.plugin, id: "x",
-            name: "X", description: "",
+            name: "X坐标", description: "帧的X坐标",
             defaultValue: 0
         })
         this.y = new NumberAttribute({
             plugin: this.plugin, id: "y",
-            name: "Y", description: "",
+            name: "Y坐标", description: "帧的Y坐标",
             defaultValue: 0
         })
         this.w = new NumberAttribute({
             plugin: this.plugin, id: "w",
-            name: "W", description: ""
+            name: "宽度", description: "帧的宽度"
         })
         this.h = new NumberAttribute({
             plugin: this.plugin, id: "h",
-            name: "H", description: ""
+            name: "高度", description: "帧的高度"
         })
 
         this.targetW = new NumberAttribute({
             plugin: this.plugin, id: "target w",
-            name: "Target w", description: "Scales the frame to the specified width."
+            name: "目标宽度", description: "将帧缩放到指定宽度。"
         })
         this.targetH = new NumberAttribute({
             plugin: this.plugin, id: "target h",
-            name: "Target h", description: "Scales the frame to the specified height."
+            name: "目标高度", description: "将帧缩放到指定高度。"
         })
         this.count = new NumberAttribute({
             plugin: this.plugin, id: "count",
-            name: "Count", description: ""
+            name: "数量", description: "帧的数量"
         })
         this.skipWidthFactor = new NumberAttribute({
             plugin: this.plugin, id: "skip width factor",
-            name: "Skip width factor", description: "",
+            name: "宽度跳过因子", description: "宽度方向上的跳过因子",
             defaultValue: 1
         })
         this.skipHeightFactor = new NumberAttribute({
             plugin: this.plugin, id: "skip height factor",
-            name: "Skip height factor", description: ""
+            name: "高度跳过因子", description: "高度方向上的跳过因子"
         })
         this.copies = new NumberAttribute({
             plugin: this.plugin, id: "copies",
-            name: "Copies", description: ""
+            name: "副本数", description: "创建的帧副本数量"
         })
         this.n = new NumberAttribute({
             plugin: this.plugin, id: "n",
-            name: "n", description: ""
+            name: "n值", description: "帧的n值参数"
         })
     }
 
     getTitle(index: number): string {
-        return `Frame ${index} (${this.bmp.value ?? 'not set'})`
+        return `帧 ${index} (${this.bmp.value ?? '未设置'})`
     }
 
     getDescription(): string {
-        return "Custom frame is useful for adding your own texture from a file."
+        return "自定义帧用于从文件添加您自己的纹理。"
     }
 }

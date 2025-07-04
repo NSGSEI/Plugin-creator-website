@@ -56,33 +56,33 @@ export class TreeDraft extends ViewportDraft {
 
         this.framesPerTree = new NumberAttribute({
             plugin: this.plugin, id: "frames per tree",
-            name: "Frames per tree", description: "How many frames a single tree has.",
+            name: "Frames per tree", description: "单棵树有多少帧图像。",
             defaultValue: 1
         })
 
         this.autoBuild = new BooleanAttribute({
             plugin: this.plugin, id: "auto build",
-            name: "Auto build", description: "Whether to generate trees during the map generation stage.",
+            name: "Auto build", description: "是否在地图生成阶段自动生成树木。",
             defaultValue: false
         })
 
         this.buildHeight = new NumberAttribute({
             plugin: this.plugin, id: "build height",
             name: "Build height",
-            description: "The height of the tree in 8px units. Should be used when frames are not provided. " +
-                "Otherwise, game will calculate it on its own. " +
-                "Used for collision checks, clipping during drawing, helicopters and much more."
+            description: "树木高度，以8像素为单位。当未提供帧图像时应使用此项。" +
+                "否则，游戏将自行计算高度。" +
+                "用于碰撞检测、绘图裁剪、直升机交互等多种用途。"
         })
 
         this.supportsSlope = new BooleanAttribute({
             plugin: this.plugin, id: "supports slope",
-            name: "Supports slope", description: "Whether trees can be placed on slopes."
+            name: "Supports slope", description: "树木是否可以放置在斜坡上。"
         })
 
         this.price = new NumberAttribute({
             plugin: this.plugin, id: "price",
             name: "Price",
-            description: "Price of the tree in Theons.",
+            description: "树木的价格（单位：Theons）。",
             validation: {minValue: 0, maxValue: 10_000_000}
         })
 

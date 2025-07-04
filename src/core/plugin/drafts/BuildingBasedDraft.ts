@@ -152,49 +152,48 @@ export abstract class BuildingBasedDraft extends ViewportDraft implements Buildi
         this.price = new NumberAttribute({
             plugin: this.plugin, id: "price",
             name: "Price",
-            description: "Price of the building in Theons.",
+            description: "建筑物的价格（单位：Theons）。",
             validation: {minValue: 0, maxValue: 10_000_000}
         })
         this.monthlyPrice = new NumberAttribute({
             plugin: this.plugin, id: "monthly price",
             name: "Monthly price",
-            description: "Monthly price of the building in Theons.",
+            description: "建筑物的月度费用（单位：Theons）。",
             validation: {minValue: -10_000_000, maxValue: 10_000_000}
         })
         this.diamondPrice = new NumberAttribute({
             plugin: this.plugin, id: "diamond price",
             name: "Diamond price",
-            description: "Diamond price of the building. Note that on premium platforms you need to " +
-                "specify normal price as well, since the game does not convert diamond price to Theon price. " +
-                "Will be ignored in case the building was unlocked by a feature.",
+            description: "建筑物的钻石价格。请注意，在高级平台上，您还需要指定普通价格，因为游戏不会将钻石价格转换为Theon价格。" +
+                "如果建筑物是通过特性解锁的，此价格将被忽略。",
             validation: {minValue: 0, maxValue: 10_000_000}
         })
         this.power = new NumberAttribute({
             plugin: this.plugin, id: "power",
             name: "Power",
-            description: "Amount of power used. Use negative values to produce power instead.",
-            validation: {minValue: -10_000_000, maxValue: 250_000}
+            description: "使用的电力量。使用负值表示产生电力。",
+            validation: {minValue: -10_000_000, maxValue: 10_000_000}
         })
         this.water = new NumberAttribute({
             plugin: this.plugin, id: "water",
             name: "Water",
-            description: "Amount of water used. Use negative values to produce water instead.",
-            validation: {minValue: -10_000_000, maxValue: 250_000}
+            description: "使用的水量。使用负值表示产生水资源。",
+            validation: {minValue: -10_000_000, maxValue: 10_000_000}
         })
 
 
         this.buildTime = new NumberAttribute({
             plugin: this.plugin, id: "build time",
             name: "Build time",
-            description: "Build time of the building. Can be left blank for game to calculate itself. " +
-                "Value of 0 will let building finish instantly.",
+            description: "建筑物的建造时间。可以留空让游戏自行计算。" +
+                "值为0将使建筑物立即完成。",
             validation: {minValue: 0, maxValue: 10_000_000}
         })
 
         this.framesWinter = new ListAttribute<Frame>({
             plugin: this.plugin, id: "frames winter",
             name: "Winter frames",
-            description: "Frames for the winter season.",
+            description: "冬季的帧图像。",
             factory: new FrameFactory()
         })
 
@@ -284,17 +283,17 @@ export abstract class BuildingBasedDraft extends ViewportDraft implements Buildi
         this.provideAspectEducationLow = new NumberAttribute({
             plugin: this.plugin, id: "provide aspect education low",
             name: "Provide aspect education low",
-            description: "The capacity of low education students the building can support."
+            description: "建筑物可以支持的低等教育学生容量。"
         })
         this.provideAspectEducationHigh = new NumberAttribute({
             plugin: this.plugin, id: "provide aspect education high",
             name: "Provide aspect education high",
-            description: "The capacity of high education students the building can support."
+            description: "建筑物可以支持的高等教育学生容量。"
         })
         this.provideAspectHealthCare = new NumberAttribute({
             plugin: this.plugin, id: "provide aspect health care",
             name: "Provide aspect health care",
-            description: "The capacity of health care receiving citizens the building can support."
+            description: "建筑物可以支持的接受医疗保健的公民容量。"
         })
         this.provideAspectWasteDisposal = new NumberAttribute({
             plugin: this.plugin, id: "provide aspect waste disposal",

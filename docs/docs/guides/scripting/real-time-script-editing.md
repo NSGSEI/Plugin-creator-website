@@ -1,50 +1,50 @@
-# Real time script editing
+# 实时脚本编辑
 
-If you tried to use Lua for your plugins in the past you may have noticed that restarting the game every time you made a change to the script can be really time consuming. Wouldn't it be nice - and way more productive - to be able to edit a script with the game applying the changed automatically in real time? That's exactly what can be done by a helper script called #LuaWrapper.
+如果您过去尝试在插件中使用Lua脚本，可能已经注意到每次修改脚本后都需要重启游戏，这非常耗时。如果能实时编辑脚本并让游戏自动应用更改，岂不是更好且更高效？这正是名为#LuaWrapper的辅助脚本可以实现的功能。
 
-Right now your json to include a script may look like that:
+当前您包含脚本的json可能如下：
 ```json
 "script":"myscript.lua"
 ```
 
-For real time scripting use this form:
+要实现实时脚本编辑，请使用以下形式：
 ```json
-"script": "#LuaWrapper",        // Use the wrapper as primary script
+"script": "#LuaWrapper",        // 使用包装器作为主脚本
 "meta": {
   "luawrapper": {
-    "script": "myscript.lua",   // This is your script file
-    "dev": true                 // Actually enable real time editing
+    "script": "myscript.lua",   // 这是您的脚本文件
+    "dev": true                 // 实际启用实时编辑
   }
 }
 ```
 
-This looks complicated, so how does it work? The #LuaWrapper script (that is predefined in the game) handles loading and reloading the given script file "myscript.lua" once it detects changes. The "dev":true is there as an easy switch to disable real time scripting, e.g. for release of the plugin.
+这看起来有些复杂，它是如何工作的？预定义的#LuaWrapper脚本会检测到更改后加载并重新加载给定的"myscript.lua"脚本文件。"dev":true是一个简单开关，可用于禁用实时脚本功能，例如发布插件时。
 
-## Caveats
-Of course there are some caveats because of which real time scripting is not used by default for scripts. Especially, it should not be used in published plugins:
+## 注意事项
+当然，由于一些注意事项，实时脚本功能默认不启用。特别是在发布的插件中不应使用：
 
-* **Performance**
+* **性能**
 
-    The game makes static assumptions about when a script has to be executed. For example, if a script doesn't implement the script:update function then it won't even be considered once the update event triggers. Scripts that may change at any point in time cannot be optimized in this regard as they have to be considered all the time. Another aspect is that the #LuaWrapper redirects calls on the real time script which adds some overhead.
+    游戏对脚本执行时机有静态假设。例如，如果脚本没有实现script:update函数，则在更新事件触发时甚至不会考虑它。可能随时更改的脚本无法在这方面进行优化，因为它们必须一直被考虑。另一个方面是#LuaWrapper重定向对实时脚本的调用会增加一些开销。
 
-* **Lua lifecycle**
+* **Lua生命周期**
 
-    The lifecycle for Lua scripts provides a well defined order of when script functions will be called.
-    See [the documentation](https://doc.theotown.com/topics/00-intro.md.html) about that.
-    Real time scripts break this lifecycle by being loaded at a later point in time (usually after all other scripts have been initialized). Although the #LuaWrapper ensures that the init functions of the real time script will be called, dependencies to other scripts might not work as expected.
+    Lua脚本的生命周期提供了脚本函数调用顺序的明确定义。
+    详见[文档](https://doc.theotown.com/topics/00-intro.md.html)。
+    实时脚本通过在稍后时间点(通常在所有其他脚本初始化后)加载来打破这个生命周期。尽管#LuaWrapper确保会调用实时脚本的init函数，但与其他脚本的依赖关系可能不如预期。
 
-* **Hidden script object**
+* **隐藏的脚本对象**
 
-    For normal scripts you can use `Draft:getScripts()` to access the script objects that are attached to a draft. However, since the real time script is wrapped by the #LuaWrapper you can only get access to that one. The real time script doesn't exist as an usual script object, instead it uses a table that uses the #LuaWrapper as a prototype. This is done so that from the point of view of the real time script, it is a full fledged script object.
+    对于普通脚本，您可以使用`Draft:getScripts()`访问附加到draft的脚本对象。但由于实时脚本被#LuaWrapper包装，您只能访问包装器。实时脚本不作为常规脚本对象存在，而是使用以#LuaWrapper为原型的表。这样做是为了从实时脚本的角度看，它是一个完整的脚本对象。
 
-See here for a video of how real time editing looks like:
+观看实时编辑效果视频：
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EE9qoKTCbZ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-The example can be downloaded from here: <br/>
+示例可从此处下载：<br/>
 [:material-file-download: realtimelua.zip](../../assets/guides/realtimelua.zip)
 
 <sub>
-This page has been adapted from
-[a topic](https://forum.theotown.com/viewtopic.php?t=10834)
-on the official TheoTown forum.
+本页面改编自
+TheoTown官方论坛的
+[这个主题](https://forum.theotown.com/viewtopic.php?t=10834)
 </sub>

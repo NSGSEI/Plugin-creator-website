@@ -1,15 +1,14 @@
-# Plugin manifest
+# 插件清单(Plugin manifest)
 
-The manifest file `plugin.manifest` was introduced in version 1.8.15 to support
-the use of local plugins in the online mode.
+清单文件`plugin.manifest`在1.8.15版本中引入，用于支持在线模式下使用本地插件。
 
-It must be included at the root directory of your plugin and must be named exactly `plugin.manifest` for the game to recognize it.
+该文件必须放在插件的根目录下，且必须命名为`plugin.manifest`才能被游戏识别。
 
-This file is a requirement if you want to create an encrypted `.ttplugin` file and use privileged features.
+如果你想创建加密的`.ttplugin`文件并使用特权功能，这个文件是必需的。
 
-## Minimal example
+## 最小示例
 
-An example manifest file could look like this:
+一个清单文件的示例如下：
 
 **plugin.manifest:**
 ```json
@@ -23,90 +22,88 @@ An example manifest file could look like this:
 }
 ```
 
-The `iap.png` is an image included together with the manifest file.
+`iap.png`是与清单文件一起包含的图片。
 
-## Attributes
+## 属性
 
-Manifest file support the following attributes:
+清单文件支持以下属性：
 
 ### id
 ::: type: string
 ::: required: true
 
-A unique identifier that uniquely identifies the plugin.
+唯一标识插件的字符串ID。
 
 ### version
 ::: type: integer
 
-A positive integer that specifies the plugin version.
+指定插件版本的正整数。
 
 ### title
 ::: type: string
 ::: required: true
 
-The title of the plugin.
+插件的标题。
 
 ### text
 ::: type: string
 
-The description of the plugin.
+插件的描述文本。
 
 ### author
 ::: type: string
 
-The name of the author behind the plugin.
+插件作者的名字。
 
 ### thumbnail
 ::: type: string
 
-The path to the plugin thumbnail image.
+插件缩略图的路径。
 
 ### url
 ::: type: string
 ::: version-added: 1.8.16
 
-A URL that points to a place from where the plugin can be obtained.
+指向插件下载地址的URL。
 
 ### min version
 ::: type: integer
 
-Specifies the minimum version of the game that the plugin can run under.
+指定插件运行所需的最低游戏版本。
 
 ### permanent
 ::: type: boolean
 ::: default: false
 
-Whether the plugin counts as a local plugin.
+是否将插件视为本地插件。
 
 ### multiplayer
 ::: type: boolean
 ::: default: true
 ::: version-added: 1.8.33
 
-Whether the plugin can be used in online mode.
+插件是否可以在在线模式中使用。
 
 ### once
 ::: type: boolean
 ::: default: false
 
-Whether the plugin manifest should be loaded once.
+插件清单是否只应加载一次。
 
-What this means is that if another manifest is encountered with the same ID, game will ignore loading it
-rather than failing with an error message.
+这意味着如果遇到相同ID的其他清单，游戏将忽略加载它而不是报错。
 
 ### platforms
 ::: type: string[]
 
-An array of platforms that the plugin can run under. Generally, this should only be used in case of
-Lua or shader plugins as regular plugins should be compatible with every platform.
+插件可以运行的平台数组。通常这应该只用于Lua或着色器插件，因为常规插件应该兼容所有平台。
 
-Internally, the platform is determined by `ApplicationType` enumerable which is provided by libgdx.
+内部使用libgdx提供的`ApplicationType`枚举确定平台。
 
-Supported values: `android`, `desktop`, `ios`.
+支持的值: `android`, `desktop`, `ios`.
 
-#### Example
+#### 示例
 
-In this example we limit our plugin to iOS and PC platforms.
+在这个示例中，我们将插件限制在iOS和PC平台:
 
 ```json
 {
@@ -121,4 +118,4 @@ In this example we limit our plugin to iOS and PC platforms.
 ::: default: true
 ::: version-added: 1.11.72
 
-Whether the plugin should show up in the plugins category.
+插件是否应该显示在插件分类中。

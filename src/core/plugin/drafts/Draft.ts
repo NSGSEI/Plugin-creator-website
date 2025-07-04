@@ -136,119 +136,117 @@ export class Draft extends AttributeOwner implements DefaultAttributes {
 
         this.id = new StringAttribute({
             plugin: this.plugin, id: "id",
-            name: "ID", description: "Each object has to have a unique ID to identify it. " +
-                "So you should add some specific information about the plugin to ensure nobody else ever gonna use this ID. " +
-                "Avoid changes to the ID afterwards, as it is used to identify buildings in saved cities. " +
-                "If you need to change it, please use the \"aliases\" attribute instead.",
+            name: "ID", description: "每个对象都必须有一个唯一的ID来标识它。" +
+                "因此，您应该添加一些关于插件的特定信息，以确保没有其他人会使用这个ID。" +
+                "避免在之后更改ID，因为它用于识别已保存城市中的建筑物。" +
+                "如果您需要更改它，请使用\"aliases\"属性代替。",
             required: true
         })
 
         this.active = new BooleanAttribute({
             plugin: this.plugin,
             id: "active",
-            name: "Active", description: "Whether the draft is active and should be loaded by the game.",
+            name: "Active", description: "草案是否处于活动状态并应由游戏加载。",
             required: false, defaultValue: true
         })
         this.premium = new BooleanAttribute({
             plugin: this.plugin, id : "premium",
-            name : "Premium", description : "Whether the plugin is premium. If it's considered premium, it will not be active in non premium " +
-                "versions of the game.",
+            name : "Premium", description : "插件是否为高级版。如果被视为高级版，它将在游戏的非高级版本中不会激活。",
             required : false, defaultValue : false
         })
         this.once = new BooleanAttribute({
             plugin: this.plugin, id : "once",
-            name : "Once", description : "Whether to load a draft by the specified ID once. It will not load any extra drafts whose " +
-                "ID is already loaded.",
+            name : "Once", description : "是否仅加载一次指定ID的草案。它不会加载任何ID已经加载过的额外草案。",
             required : false, defaultValue : false
         })
         this.inherit = new BooleanAttribute({
             plugin: this.plugin, id : "inherit",
-            name : "Inherit", description : "Whether to inherit an already defined draft by the specified ID.",
+            name : "Inherit", description : "是否继承已通过指定ID定义的草案。",
             required : false, defaultValue : false
         })
         this.override = new BooleanAttribute({
             plugin: this.plugin, id : "override",
-            name : "Override", description : "Whether to override an already defined draft by the specified ID.",
+            name : "Override", description : "是否覆盖已通过指定ID定义的草案。",
             required : false, defaultValue : false
         })
         this.privileged = new StringAttribute({
             plugin: this.plugin, id: "privileged",
-            name: "Privileged key", description: "Privileged key for your draft. Allows to use special features, which " +
-                "are restricted to trusted plugin creators only."
+            name: "Privileged key", description: "草案的特权密钥。允许使用特殊功能，这些功能" +
+                "仅限于受信任的插件创建者使用。"
         })
         this.requirePrivileges = new BooleanAttribute({
             plugin: this.plugin, id: "require privileges",
             name: "Require privileges",
-            description: "Whether the draft requires features such as monthly income, frame placement, etc.",
+            description: "草案是否需要月收入、框架放置等特殊功能。",
             required: false, defaultValue: false
         })
         this.requireSuperPrivileges = new BooleanAttribute({
             plugin: this.plugin, id: "require super privileges",
             name: "Require super privileges",
-            description: "Whether the draft requires features that are restricted to DSA.",
+            description: "草案是否需要仅限于DSA的功能。",
             required: false, defaultValue: false,
             disabled: true
         })
         this.mute = new BooleanAttribute({
             plugin: this.plugin, id : "mute",
-            name : "Mute", description : "Whether to suppress any errors that have occurred while loading the draft.",
+            name : "Mute", description : "是否抑制加载草案时发生的任何错误。",
             required : false, defaultValue : false
         })
 
         this.minVersion = new NumberAttribute({
             plugin: this.plugin, id: "min version",
-            name: "Minimal version", description: "Minimal game version required to run this draft.",
+            name: "Minimal version", description: "运行此草案所需的最低游戏版本。",
             defaultValue: 0,
             validation: {minValue: 0, maxValue: 99999}
         })
         this.maxVersion = new NumberAttribute({
             plugin: this.plugin, id: "max version",
-            name: "Max version", description: "Maximum game version required to run this draft.",
+            name: "Max version", description: "运行此草案所需的最高游戏版本。",
             defaultValue: 0,
             validation: {minValue: 0, maxValue: 99999}
         })
 
         this.title = new StringAttribute({
             plugin: this.plugin, id: "title",
-            name : "Title", description : "Draft title, usually of a building."
+            name : "Title", description : "草案标题，通常是建筑物的标题。"
         })
         this.titleId = new StringAttribute({
             plugin: this.plugin, id: "title id",
-            name : "Title ID", description : "ID of the title string. Can be used to refer to specific translation key."
+            name : "Title ID", description : "标题字符串的ID。可用于引用特定的翻译键。"
         })
         this.text = new StringAttribute({
             plugin: this.plugin, id: "text",
-            name: "Text", description: "Draft text, usually the description of the building or the text in notifications."
+            name: "Text", description: "草案文本，通常是建筑物的描述或通知中的文本。"
         })
         this.textId = new StringAttribute({
             plugin: this.plugin, id: "text id",
-            name: "Text ID", description: "ID of the text string. Can be used to refer to specific translation key."
+            name: "Text ID", description: "文本字符串的ID。可用于引用特定的翻译键。"
         })
         this.hidden = new BooleanAttribute({
             plugin: this.plugin, id : "hidden",
-            name : "Hidden", description : "Whether the draft will be hidden in the toolbar.",
+            name : "Hidden", description : "草案是否会在工具栏中隐藏。",
             required : false, defaultValue : false
         })
         this.author = new StringAttribute({
             plugin: this.plugin, id: "author",
-            name: "Author", description : "The author of this plugin draft.",
+            name: "Author", description : "此插件草案的作者。",
             required : true
         })
 
 
         this.final = new BooleanAttribute({
             plugin: this.plugin, id : "final",
-            name : "Final", description : "Whether the draft can be overridden.",
+            name : "Final", description : "草案是否可以被覆盖。",
             required : false, defaultValue : false
         })
         this.hideId = new BooleanAttribute({
             plugin: this.plugin, id : "hide id",
-            name : "Hide ID", description : "Whether the user can see the ID of the draft.",
+            name : "Hide ID", description : "用户是否可以看到草案的ID。",
             required : false, defaultValue : false
         })
         this.muteLua = new BooleanAttribute({
             plugin: this.plugin, id : "mute lua",
-            name : "Mute Lua", description : "Whether to mute Lua errors.",
+            name : "Mute Lua", description : "是否静默Lua错误。",
             required : false
         })
         // TODO: improve description
@@ -259,74 +257,73 @@ export class Draft extends AttributeOwner implements DefaultAttributes {
         })
         this.index = new BooleanAttribute({
             plugin: this.plugin, id : "index",
-            name : "Index", description : "Whether to allow the draft to be indexed by Lua methods.",
+            name : "Index", description : "是否允许草案被Lua方法索引。",
             required : false, defaultValue : false
         })
 
         this.ordinal = new NumberAttribute({
             plugin: this.plugin, id: "ordinal",
-            name: "Ordinal", description: "Position of the draft in category. Lower ordinal value will list the draft " +
-                "higher. Negative values are allowed."
+            name: "Ordinal", description: "草案在类别中的位置。较低的序数值将使草案 " +
+                "排列更靠前。允许使用负值。"
         })
         // TODO: improve description
         this.ordinalFrom = new StringAttribute({
             plugin: this.plugin, id: "ordinal",
-            name: "Ordinal from", description: "ID of the draft to grab ordinal from. Must be used in combination " +
-                "with ordinal attribute."
+            name: "Ordinal from", description: "获取序数值的草案ID。必须与序数属性一起使用。"
         })
 
 
         // TODO: proper meta implementation
         this.meta = new MetaAttribute({
             plugin: this.plugin, id: "meta",
-            name: "Meta", description: "Draft metadata. Useful for defining special draft data. " +
-                "By default, PCA includes some information about itself.",
+            name: "Meta", description: "草案元数据。用于定义特殊的草案数据。" +
+                "默认情况下，PCA包含一些关于自身的信息。",
             // @ts-ignore
             required: false, defaultValue: {"pca": {"version": __APP_VERSION__}}
         })
 
         this.separator = new BooleanAttribute({
             plugin: this.plugin, id: "separator",
-            name: "Separator", description: "Whether to separate draft from others in a category.",
+            name: "Separator", description: "是否在类别中将此草案与其他草案分开。",
             defaultValue: false
         })
 
         this.previewFrames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "preview frames",
-            name: "Preview frames", description: "The preview frames of your draft visible in the toolbar.",
+            name: "Preview frames", description: "在工具栏中可见的草案预览帧。",
             factory: new FrameFactory()
         })
         this.iconFrames = new ListAttribute<Frame>({
             plugin: this.plugin, id: "icon frames",
-            name: "Icon frames", description: "The icon frames of your draft. Visible in the building information panel.",
+            name: "Icon frames", description: "草案的图标帧。在建筑信息面板中可见。",
             factory: new FrameFactory()
         })
 
         this.showNewMarker = new BooleanAttribute({
             plugin: this.plugin, id: "show new marker",
-            name: "Show new marker", description: "Whether the draft will show a new marker in the toolbar.",
+            name: "Show new marker", description: "草案是否在工具栏中显示新标记。",
             defaultValue: true
         })
         this.searchable = new BooleanAttribute({
             plugin: this.plugin, id: "searchable",
-            name: "Searchable", description: "Whether the draft can be searched.",
+            name: "Searchable", description: "草案是否可被搜索。",
             defaultValue: true
         })
 
 
         this.category = new StringAttribute({
             plugin: this.plugin, id: "category",
-            name: "Category", description: "Draft ID of a category this draft belongs to."
+            name: "Category", description: "此草案所属类别的草案ID。"
         })
         this.categoryFrom = new StringAttribute({
             plugin: this.plugin, id: "category from",
-            name: "Category from", description: "Draft ID to grab category from and use for this draft as well."
+            name: "Category from", description: "获取类别并同样用于此草案的草案ID。"
         })
 
 
         this.notImplemented = new BooleanAttribute({
             plugin: this.plugin, id: "not implemented",
-            name: "Not implemented", description: "Whether this draft has to be inherited to be considered implemented.",
+            name: "Not implemented", description: "此草案是否必须被继承才能被视为已实现。",
             defaultValue: false
         })
 
@@ -370,7 +367,7 @@ export class Draft extends AttributeOwner implements DefaultAttributes {
     }
 
     getOptionalAttributeDescription(): string {
-        return "These are optional attributes you can add to your plugin draft. " +
-            "They are not required, however useful such as adding a title, a description or a price for your building.";
+        return "这些是您可以添加到插件草案中的可选属性。" +
+            "它们不是必需的，但很有用，例如为您的建筑添加标题、描述或价格。";
     }
 }

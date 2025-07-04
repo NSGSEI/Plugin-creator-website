@@ -1,129 +1,125 @@
-# A better visual guide on shading, shadows and detail
+# 更完善的着色、阴影和细节视觉指南
 
 !!! info
-    This is an updated visual guide on shading, shadows, depth and noise.
-    To find the old version, click [**here**](https://forum.theotown.com/viewtopic.php?t=13798).
+    这是关于着色、阴影、深度和噪点的更新版视觉指南。
+    要查看旧版本，请点击[这里](https://forum.theotown.com/viewtopic.php?t=13798)。
 
-This visual guide covers
-^^shading, shadows, depth (windows, parapet), noise, roof and ambient occlusions^^
-in a visual manner.
-This guide contains some text, however, you should be able to understand most stuff
-from just looking at the images.
-A compiled version of the guide (in one image, no text) can be found at the bottom of this tutorial.
+本视觉指南以直观方式涵盖了
+^^着色、阴影、深度(窗户、女儿墙)、噪点、屋顶和环境遮挡^^等内容。
+虽然指南包含一些文字说明，但您通过查看图片应该就能理解大部分内容。
+本教程底部提供了指南的汇总版本(单张图片，无文字)。
 
 
-## Part 1: Shading
+## 第一部分：着色
 
-Light in TheoTown comes from the ^^left^^ side. This means that the left side will be lighter, while the right side will be darker.
+TheoTown中的光线来自^^左侧^^。这意味着左侧会更亮，而右侧会更暗。
 
 ![](../../assets/guides/better-shading-guide/image1.png)
 
-This rule must be applied when making structures. Adding outlines to walls will ruin the quality of your plugin.
+制作建筑时必须应用这一规则。为墙壁添加轮廓线会降低插件质量。
 
 ![](../../assets/guides/better-shading-guide/image2.png)
 
-However, one of the most important factors of quality will be your implementation of ^^contrast^^.
-Generally, the higher contrast can be achieved by making darker (decreasing the value, V) colors brighter
-(increasing the saturation, S) and closer to the
-<span style="color:#0000FF">blue</span> (<span style="color:#0000FF">#0000FF; hue, or H = 240</span>,
-why darker colors are closer to blue is explained in the second part.) color.
+然而，质量最重要的因素之一是您对^^对比度^^的实现。
+通常，可以通过使较暗(降低明度V)的颜色更亮
+(增加饱和度S)并接近
+<span style="color:#0000FF">蓝色</span>(<span style="color:#0000FF">#0000FF; 色相H=240</span>，
+为什么深色更接近蓝色将在第二部分解释)来获得更高的对比度。
 
 ![](../../assets/guides/better-shading-guide/image3.png)
 
-By tinkering with the HSV values, higher contrast will be achieved, making structures look less dull.
+通过调整HSV值，可以获得更高的对比度，使建筑看起来不那么单调。
 
 ![](../../assets/guides/better-shading-guide/image4.png)
 
-Applying the HSV rule, this is how our structure looks now.
+应用HSV规则后，我们的建筑现在看起来是这样的。
 
 ![](../../assets/guides/better-shading-guide/image5.png)
 
-## Part 2: Shadows
+## 第二部分：阴影
 
-As mentioned in Part 1, light comes from the left side. Therefore, any shadows will be going diagonally to the ^^right^^.
+如第一部分所述，光线来自左侧。因此，所有阴影都将向^^右侧^^对角线延伸。
 
 ![](../../assets/guides/better-shading-guide/image6.png)
 
-Shadow lengths are usually equal to drawing a 45 degree line from the top of a structure to the bottom.
+阴影长度通常等于从建筑顶部到底部绘制45度线。
 
 ![](../../assets/guides/better-shading-guide/image7.png)
 
-It is important to note that shadows also affect walls. However, it is important that you do not make them too long.
+需要注意的是阴影也会影响墙壁。但重要的是不要使它们过长。
 
 ![](../../assets/guides/better-shading-guide/image8.png)
 
-Another important thing: shadows are slightly blue in color, which is why darker areas (see HSV in Part 1) are closer in color to blue.
+另一个重要事项：阴影略带蓝色，这就是为什么较暗区域(见第一部分HSV)颜色更接近蓝色。
 
 ![](../../assets/guides/better-shading-guide/image9.png)
 
-One final thing: shadows look better when they fade out rather than disappear instantly. This is how our structure looks now.
+最后一点：阴影逐渐淡出比突然消失看起来更好。这是我们现在建筑的样子。
 
 ![](../../assets/guides/better-shading-guide/image10.png)
 
-## Part 3: Windows and depth
+## 第三部分：窗户和深度
 
-When adding windows, it is recommended you add windowsills which create more depth to your buildings, making them look nicer.
+添加窗户时，建议添加窗台，这能为建筑创造更多深度感，使其看起来更好。
 
 ![](../../assets/guides/better-shading-guide/image11.png)
 
-Bright blue windows are to be avoided. It is suggested you go much darker with window colors, pure black (#000000) is also acceptable.
+应避免使用亮蓝色窗户。建议使用更暗的窗户颜色，纯黑色(#000000)也可以接受。
 
 ![](../../assets/guides/better-shading-guide/image12.png)
 
-When making windowsills, you can color the vertical side in the other side's color, while the horizontal side can be the color of the flat roof. Make sure to mind the shadows. This (left) is how our structure looks now.
+制作窗台时，垂直面可以使用另一侧的颜色，而水平面可以使用平屋顶的颜色。务必注意阴影。这是(左侧)我们现在建筑的样子。
 
 ![](../../assets/guides/better-shading-guide/image13.png)
 
-As a bonus, if you want to keep the roof flat, you may want to add a **parapet** to make your building more realistic. Mind the shadows.
+额外提示：如果想保持屋顶平坦，可以添加**女儿墙**使建筑更真实。注意阴影。
 
 ![](../../assets/guides/better-shading-guide/image14.png)
 
+## 第四部分：噪点
 
-## Part 4: Noise
+为建筑添加噪点可以产生质感，缓解建筑看起来过于平面和塑料感的问题。噪点可以通过使随机像素变亮或变暗来实现。
 
-Adding noise to a structure gives a sense of texture, which alleviates the issue of your structure looking flat and plastic. Noise can be achieved by making random pixels lighter or darker.
-
-Noise can be done by tools. However, make sure you do not overdo it.
+可以使用工具添加噪点。但注意不要过度使用。
 
 ![](../../assets/guides/better-shading-guide/image15.png)
 
-Noise can also be made manually, like I did by making pixels darker in "crack" formations. The advantage to creating noise manually is that you have better control over which algorithm you want to use and what texture you want to convey. However, doing so is slower and takes more effort. This is how our structure looks now.
+也可以手动添加噪点，比如我通过以"裂纹"形式使像素变暗。手动创建噪点的优势在于可以更好地控制使用的算法和想要表现的纹理。但这样做速度较慢且需要更多精力。这是我们建筑现在的样子。
 
 ![](../../assets/guides/better-shading-guide/image16.png)
 
-## Part 5: Roof
+## 第五部分：屋顶
 
-Roofs come in all shapes and sizes, however, you are most likely to use one of either these roof shapes. The numbers show how much you should raise a pixel (draw it higher vertically) for each horizontal pixel. As mentioned in Part 3, completely flat roofs are also a possibility; it is recommended to add a parapet in that case.
+屋顶有各种形状和大小，但您最可能使用以下几种屋顶形状之一。数字表示每个水平像素应该提升多少像素(垂直方向上绘制更高)。如第三部分所述，完全平坦的屋顶也是一种选择；这种情况下建议添加女儿墙。
 
 ![](../../assets/guides/better-shading-guide/image17.png)
 
-Applying the 1/2 roof to the building gives this:
+将1/2屋顶应用到建筑上得到：
 
 ![](../../assets/guides/better-shading-guide/image18.png)
 
-Add shadows and noise to the roof, and this is how our structure looks now.
+为屋顶添加阴影和噪点后，这是我们建筑现在的样子。
 
 ![](../../assets/guides/better-shading-guide/image19.png)
 
-## Part 6: Ambient occlusions
+## 第六部分：环境遮挡
 
-Ambient occlusions help making walls stand out more. They are achieved by adding dark transparent pixels (I use the same color as shadows) to corners and edges.
+环境遮挡有助于使墙壁更加突出。通过在角落和边缘添加深色透明像素(我使用与阴影相同的颜色)来实现。
 
 ![](../../assets/guides/better-shading-guide/image20.png)
 
-Add ambient occlusions, and this is how our finished structure looks now.
+添加环境遮挡后，这是我们最终建筑的样子。
 
 ![](../../assets/guides/better-shading-guide/image21.png)
 
-## Finale
+## 总结
 
-Applying all the given tricks to your plugins can make them look much more pleasant and raises the likelihood that your plugin will be approved if you upload it to the Plugin Store, if you choose better colors. Please note that you should first get done with the structure and then add noise, ambient occlusions and shadows.
+将所有这些技巧应用到您的插件中，可以使它们看起来更加美观，如果您选择了更好的颜色，还能提高插件上传到插件商店时获得批准的几率。请注意，您应该先完成建筑结构，然后再添加噪点、环境遮挡和阴影。
 
 ![](../../assets/guides/better-shading-guide/dbasics.png)
 
-
 <sub>
-This page has been adapted from
-[a topic](https://forum.theotown.com/viewtopic.php?t=25943)
-on the official TheoTown forum.
+本页面改编自
+TheoTown官方论坛的
+[这个主题](https://forum.theotown.com/viewtopic.php?t=25943)
 </sub>

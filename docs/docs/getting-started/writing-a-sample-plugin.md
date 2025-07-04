@@ -1,27 +1,27 @@
-# Writing a sample plugin
+# 编写示例插件
 
-To get started with plugin making for TheoTown, first we need to cover a few aspects.
+要开始为TheoTown制作插件，我们首先需要了解几个方面。
 
-!!! danger "Copyright (read this before publishing plugins for the first time)"
-    Copyright is a serious thing. Obey copyright rules or you will get punished!
+!!! danger "版权声明(首次发布插件前请阅读)"
+    版权是非常严肃的事情。请遵守版权规则，否则将受到惩罚！
 
-    [Article on copyright on the official forums](https://forum.theotown.com/viewtopic.php?t=4144).
+    [官方论坛关于版权的文章](https://forum.theotown.com/viewtopic.php?t=4144)。
 
-## 1. Structure
-First of all, plugins are stored in an accessible directory on your device. The exact location varies depending on the platform that you are using:
+## 1. 目录结构
+首先，插件存储在设备上可访问的目录中。具体位置取决于您使用的平台：
 
-* In case of **Android** that is `Android/data/info.flowersoft.theotown.theotown/files`. From the device itself you may not be able to access that location directly. However, TheoTown should appear as some sort of virtual file storage when using the Android Files app (which can also be called by other apps in order to select files for input or output). Alternatively, you can use the built-in file explorer that can be accessed from the game menu when being in the region view.
-* In case of **iOS** you can access the files via the Files app or, when the device is connected to a Mac, in the storage location for your device in the finder.
-* On **PC** the files are stored in `C:/Users/YourUsername/TheoTown` (Windows) or `~/TheoTown` (MacOS and Linux).
+* **Android**设备上位于`Android/data/info.flowersoft.theotown.theotown/files`。从设备本身可能无法直接访问该位置。但是，当使用Android文件应用时，TheoTown应该会显示为某种虚拟文件存储(其他应用也可以调用该应用来选择输入或输出文件)。或者，您可以使用游戏内置的文件浏览器，在区域视图时可以从游戏菜单中访问。
+* **iOS**设备上可以通过文件应用访问文件，或者当设备连接到Mac时，在Finder中的设备存储位置访问。
+* **PC**上文件存储在`C:/Users/您的用户名/TheoTown`(Windows)或`~/TheoTown`(MacOS和Linux)。
 
-When developing, each plugin has to be placed in an own directory. Let's say it's **sample** for our plugin example. On startup, TheoTown searches in each of these directories for ***.json**-files to load. Graphics for such a file have to lay in the same directory.
+开发时，每个插件必须放在自己的目录中。以我们的示例插件为例，假设目录名为**sample**。启动时，TheoTown会在这些目录中搜索要加载的***.json**文件。此类文件的图形必须位于同一目录中。
 
-You may see a more in-depth overview of how plugins are loaded [here](../reference/technical/loading-order.md).
+您可以在此处查看更多关于插件加载顺序的深入概述[这里](../reference/technical/loading-order.md)。
 
-## 2. JSON
-JSON-files are used to describe buildings in TheoTown. That said, they are (similar to XML-files) a readable format to store structured information.
-[More about JSON can be found here](https://en.wikipedia.org/wiki/JSON).
-We decided to use JSON as it's really simple and easy to read. Such a JSON file may look like
+## 2. JSON文件
+JSON文件用于描述TheoTown中的建筑。也就是说，它们(类似于XML文件)是一种可读的格式，用于存储结构化信息。
+[更多关于JSON的信息可以在这里找到](https://en.wikipedia.org/wiki/JSON)。
+我们决定使用JSON是因为它非常简单且易于阅读。这样的JSON文件可能如下所示：
 ```json
 [{
   "id": "$sample.plugin.unique.id.res00",
@@ -34,122 +34,119 @@ We decided to use JSON as it's really simple and easy to read. Such a JSON file 
   "level": 1
 }]
 ```
-Every JSON file (let's call it *sample_dsc.json*) in a plugin may contain multiple building descriptions, therefore the file starts with a **[** and ends with a **]**, noting that this is a listing of something (like building objects, in this case). Never forget these brackets as the plugin might not be loaded without them!
+插件中的每个JSON文件(我们称之为*sample_dsc.json*)可能包含多个建筑描述，因此文件以**[**开头并以**]**结尾，表示这是一个列表(在本例中是建筑对象的列表)。永远不要忘记这些括号，因为没有它们插件可能无法加载！
 
-Speaking of objects, the listing contains a number of objects, each starting with **{** and ending with **}**. Multiple objects have to be separated using a comma.
+说到对象，列表包含多个对象，每个对象以**{**开头并以**}**结尾。多个对象必须用逗号分隔。
 
-An object consists of multiple `"key": "value"` pairs that are used to define the properties of the object. Step for step:
+一个对象由多个`"key": "value"`对组成，用于定义对象的属性。逐步说明：
 
-* **id** - Each object has to have a unique id to identify it. So you should add some specific information about the plugin to ensure nobody else ever gonna use this id. Avoid changes to the id afterwards, as it is used to identify buildings in saved cities. Buildings with unknown id cannot be loaded.
-* **type** - States the type of the plugin. See [the advanced topic](https://www.theotown.com/forum/viewtopic.php?f=41&t=1355) for more types. We will call objects that have types _drafts_.
-* **author** - Here you state your name as author of the plugin.
-* **width** - Tile width of the base of the building. Each tile has a pixel size of 32x16.
-* **height** - Has to be the same as **width**. Therefore, only square buildings are possible.
-* **frames** - This is the most important part of our definition. The frames (graphics) that are associated to our building. As this property expects an list (array) of frames we have to start with **[** and end with **]**. In that we can define a frame object using the property **bmp** which references to an image file in the same directory. Here it's the file *sample_bmp.png*. The option to provide multiple frames can be used for animations or different building variants.
-* **smoke** - If you want to you can use this property to define a list of smoke spots on the building. Some smoke types like **$smoke07** are already defined by TheoTown and may be reused.
-Have a look at the [listing of defined smoke types](https://forum.theotown.com/viewtopic.php?p=6653#6653) for more information.
-Note that the position of the spot is relative to the drawing pivot of the building (the left corner of the base).
-* **level** - Here you can set the level of the building, it has to be **1** for T (poor), **2** for TT (medium) and **3** for TTT (rich).
+* **id** - 每个对象必须有一个唯一的id来标识它。因此您应该添加一些关于插件的特定信息，以确保其他人永远不会使用这个id。之后避免更改id，因为它用于标识已保存城市中的建筑。具有未知id的建筑无法加载。
+* **type** - 指定插件的类型。查看[高级主题](https://www.theotown.com/forum/viewtopic.php?f=41&t=1355)获取更多类型。我们将具有类型的对象称为_drafts_。
+* **author** - 在这里声明您作为插件作者的名称。
+* **width** - 建筑基础的瓦片宽度。每个瓦片的像素大小为32x16。
+* **height** - 必须与**width**相同。因此，只能创建方形建筑。
+* **frames** - 这是我们定义中最重要的部分。与建筑相关联的帧(图形)。由于此属性需要一个帧列表(数组)，我们必须以**[**开头并以**]**结尾。在其中，我们可以使用属性**bmp**定义一个帧对象，它引用同一目录中的图像文件。这里是文件*sample_bmp.png*。提供多个帧的选项可用于动画或不同的建筑变体。
+* **smoke** - 如果需要，您可以使用此属性定义建筑上的烟雾点列表。一些烟雾类型如**$smoke07**已经由TheoTown定义并可以重复使用。
+查看[已定义的烟雾类型列表](https://forum.theotown.com/viewtopic.php?p=6653#6653)获取更多信息。
+请注意，点的位置相对于建筑的绘制枢轴点(基础的左角)。
+* **level** - 在这里您可以设置建筑的等级，对于T(贫穷)必须是**1**，TT(中等)是**2**，TTT(富裕)是**3**。
 
-Each property has to be separated by a comma. String values (like property names or string values) have to be **"**quoted**"**.
-In this sample, only the property **smoke** is optional[^1].
+每个属性必须用逗号分隔。字符串值(如属性名称或字符串值)必须用**"**引号**"**括起来。
+在此示例中，只有**smoke**属性是可选的[^1]。
 
-[^1]: This is not quite correct, as the game provides default values for `author` and `level` attribute, but it's recommended to
-set these values explicitly.
+[^1]: 这并不完全正确，因为游戏为`author`和`level`属性提供了默认值，但建议明确设置这些值。
 
-Further properties like building time, habitant count etc. are inferred automatically for convenience. So the sample building works immediately (after restarting the game) and can be built manually in sandbox mode.
+为了便利，其他属性如建造时间、居民数量等会自动推断。因此示例建筑会立即工作(重启游戏后)并且可以在沙盒模式中手动建造。
 
 
-## 3. Graphics
-The more difficult part when including own buildings is to create the buildings itself. You have to keep in mind that our tiles have a size of 32x16 pixels, so a building of size 2x2 (it has to be a square) needs at least a graphics size of 64x32 pixels (it's important to actually use this width so TheoTown can calculate the pivot point in the left corner of the base, which is used to draw the building).
-For more details, take a look into [theo's step by step guide](https://forum.theotown.com/viewtopic.php?p=5712#5712).
+## 3. 图形
+在包含自己的建筑时，更困难的部分是创建建筑本身。您必须记住，我们的瓦片大小为32x16像素，因此一个2x2大小的建筑(必须是正方形)至少需要64x32像素的图形大小(实际使用此宽度很重要，这样TheoTown可以计算基础左角的枢轴点，用于绘制建筑)。
+更多细节，请查看[theo的逐步指南](https://forum.theotown.com/viewtopic.php?p=5712#5712)。
 
 <!--
-Here an illustration how to measure the coordinates for the smoke of the given sample:
+这里是一个如何测量给定示例烟雾坐标的图示：
 
-TODO: image is gone
+TODO: 图片已丢失
 ![image](images/...)
 
-The red pixel is the pivot point of our building while the blue pixel is where we want to place our smoke.
+红色像素是我们建筑的枢轴点，而蓝色像素是我们想要放置烟雾的位置。
 
 -->
 
-In our example we use this graphics with a size of 32x25 pixels, named *sample_bmp.png*: 
+在我们的示例中，我们使用这个大小为32x25像素的图形，名为*sample_bmp.png*: 
 
 <figure markdown="block">
-![sample plugin](../images/sample-plugin.png){: style="width:256x;height:240px;image-rendering:crisp-edges;"}
+![示例插件](../images/sample-plugin.png){: style="width:256x;height:240px;image-rendering:crisp-edges;"}
 </figure>
 
-Here are some templates for you for the base of different sizes:
+这里有一些不同大小的基础模板供您使用：
 
-<!-- Do not tabulate these or it breaks-->
+<!-- 不要将这些表格化，否则会破坏布局 -->
 <div class="grid cards" markdown="block">
 <figure markdown="block">
-![1x1 template](../images/1x1_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
-<figcaption>1x1 template</figcaption>
+![1x1模板](../images/1x1_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
+<figcaption>1x1模板</figcaption>
 </figure>
 
 <figure markdown="block">
-![2x2 template](../images/2x2_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
-<figcaption>2x2 template</figcaption>
+![2x2模板](../images/2x2_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
+<figcaption>2x2模板</figcaption>
 </figure>
 
 <figure markdown="block">
-![3x3 template](../images/3x3_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
-<figcaption>3x3 template</figcaption>
+![3x3模板](../images/3x3_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
+<figcaption>3x3模板</figcaption>
 </figure>
 
 <figure markdown="block">
-![4x4 template](../images/4x4_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
-<figcaption>4x4 template</figcaption>
+![4x4模板](../images/4x4_template.png){: style="width:256px;height:128px;image-rendering:crisp-edges;"}
+<figcaption>4x4模板</figcaption>
 </figure>
 </div>
 
-[Here](https://forum.theotown.com/viewtopic.php?f=41&t=3207) we have a list of base templates that contains even bigger sizes.
+[这里](https://forum.theotown.com/viewtopic.php?f=41&t=3207)我们有一个基础模板列表，包含更大的尺寸。
 
-**Please use only self-created buildings for your TheoTown plug-ins!**
+**请仅为您的TheoTown插件使用自己创建的建筑！**
 
-## 4. Plugin manifest
-The plugin that we created will work and we will have a new residential building, however the player will not be able to manage
-the plugin through the UI interface nor will it work in the online mode.
+## 4. 插件清单
+我们创建的插件将会工作，并且会有一个新的住宅建筑，但是玩家将无法通过UI界面管理插件，也无法在在线模式下工作。
 
-For that we need to create a plugin manifest file. The file follows the same JSON format we used above, however this time
-it starts with an object, rather an array of objects:
+为此，我们需要创建一个插件清单文件。该文件遵循我们上面使用的相同JSON格式，但这次它以对象开头，而不是对象数组：
 
 ```json title="plugin.manifest"
 {
-  "id": "5a06a291-980f-406e-9b77-b72814331e36",  // Unique id for the plugin, used https://www.uuidgenerator.net/
-  "version": 3,                                  // Numeric version code
-  "title": "Sample plugin",                      // Title for the plugin
-  "text": "Just an example for a plugin.",       // Description for the plugin (optional)
-  "author": "Theo&Lobby",                        // Author of the plugin
-  "thumbnail": "sample_bmp.png",                 // Thumbnail image file (optional)
-  "category": false,                             // Specify whether to show a category for the plugin (optional)
-  "url": "https://forum.theotown.com/viewtopic.php?p=5604#5604", // An URL where to get the plugin (optional)
-  "once": true                                   // Whether to ignore other occurrences of this plugin
+  "id": "5a06a291-980f-406e-9b77-b72814331e36",  // 插件的唯一ID，使用https://www.uuidgenerator.net/生成
+  "version": 3,                                  // 数字版本号
+  "title": "Sample plugin",                      // 插件的标题
+  "text": "Just an example for a plugin.",       // 插件的描述(可选)
+  "author": "Theo&Lobby",                        // 插件的作者
+  "thumbnail": "sample_bmp.png",                 // 缩略图文件(可选)
+  "category": false,                             // 指定是否为插件显示一个类别(可选)
+  "url": "https://forum.theotown.com/viewtopic.php?p=5604#5604", // 获取插件的URL(可选)
+  "once": true                                   // 是否忽略此插件的其他出现
 }
 ```
 
-It must be included at the root of our **sample** plugin directory and must be named exactly plugin.manifest for the game to recognize it.
+它必须包含在我们**sample**插件目录的根目录中，并且必须命名为plugin.manifest才能被游戏识别。
 
-While the game loads our plugin without a manifest file, that is not guaranteed to be true in the future. Therefore we recommend to always include a manifest file.
+虽然游戏在没有清单文件的情况下加载我们的插件，但这在未来可能不再适用。因此我们建议始终包含一个清单文件。
 
-For more plugin manifest file attributes, look [here](../manifest.md).
+有关更多插件清单文件属性，请查看[这里](../manifest.md)。
 
-## 5. Limitations
-JSON is just a language for description. Therefore it's not possible to *program* your own buildings. Functionality is added by TheoTown itself and depends on the set properties. If you have a good idea for new functionality that should be available through plugins, please let us know.
-However, you can add some sort of functionality in JSON by using [FUN](https://forum.theotown.com/viewtopic.php?f=81&t=4301).
-For more fancy behaviour you could [include a Lua script](https://forum.theotown.com/viewtopic.php?f=115&t=9295) in your plugin.
+## 5. 限制
+JSON只是一种描述语言。因此不可能*编程*自己的建筑。功能由TheoTown本身添加，并取决于设置的属性。如果您有关于应该通过插件提供的新功能的好主意，请告诉我们。
+但是，您可以通过使用[FUN](https://forum.theotown.com/viewtopic.php?f=81&t=4301)在JSON中添加某种功能。
+对于更复杂的行为，您可以在插件中[包含Lua脚本](https://forum.theotown.com/viewtopic.php?f=115&t=9295)。
 
-Maybe you now want to create hundreds of own buildings and also download tons of them from the internet. However, there is no infinite space for plugins and therefore you should try to not create giant buildings for no reason. Especially when it comes to huge transparent parts you can usually optimize them away.
+也许您现在想创建数百个自己的建筑，并从互联网下载大量建筑。然而，插件的空间不是无限的，因此您应该尽量避免无缘无故地创建巨大的建筑。特别是当涉及到大的透明部分时，通常可以优化掉它们。
 
-Speaking of giant buildings, just try to avoid them if possible. If not, keep in mind that the max building size is 8x8 and max building height is 256 pixels.
+说到巨型建筑，如果可能的话尽量避免。如果不可避免，请记住最大建筑尺寸为8x8，最大建筑高度为256像素。
 
-## 6. Debugging
-As of right now, TheoTown does not provide any debugging mechanisms, so you might have to do some testing in order to find the bug if something doesn't work. Most likely there's a syntax issue in the JSON-file, so [you might check that first](https://jsonlint.com/). If there are no syntax errors, maybe you have a typing mistake in the image name.
+## 6. 调试
+目前，TheoTown不提供任何调试机制，因此如果某些功能不起作用，您可能需要进行一些测试来找到错误。很可能是JSON文件中的语法问题，所以[您可以先检查这一点](https://jsonlint.com/)。如果没有语法错误，可能是图像名称中有拼写错误。
 
-In case of an issue with a plugin TheoTown shows a plugin error after start up which shows more information about what's wrong.
-The text is also written to a file error.log in the plugin directory for reference. It should give you a hint of what went wrong.
-If not, you may post your questions [on the official forum](https://forum.theotown.com/viewforum.php?f=42).
+如果插件出现问题，TheoTown会在启动后显示插件错误，其中包含有关问题的更多信息。
+文本也会写入插件目录中的error.log文件以供参考。它应该能给您提示出了什么问题。
+如果没有，您可以在[官方论坛](https://forum.theotown.com/viewforum.php?f=42)上发布您的问题。
 
-<sub>This page has been adapted from the official TheoTown forum.</sub>
+<sub>本页面改编自TheoTown官方论坛。</sub>

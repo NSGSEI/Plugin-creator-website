@@ -1,17 +1,17 @@
-# Detect firework wires using Fun
+# 使用FUN检测烟花导线
 
-This tutorial should help those of you who want to utilize the firework wire's functionality without having to make your own wire.  
+本教程将帮助那些想要使用烟花导线功能而无需自己制作导线的用户。
 
-It is very simple to use a wire in your condition:
+在条件中使用导线非常简单：
 ```json
 "condition":{"type":"building","id":"$on"}
 ```
 
-All you need is something like this that checks for the ID `"$on"`. Very simple, but very useful.
-If you want to detect when the wire is off, then you'll need to use the ID `"$off"`.  
-There's no need to worry about detecting frames.  Checking for the ID will be enough.
+您只需要像这样检查ID `"$on"`。非常简单但非常有用。
+如果您想检测导线关闭的状态，则需要使用ID `"$off"`。
+无需担心检测帧的问题，检查ID就足够了。
 
-Here's an example of its usage:
+以下是一个使用示例：
 ```json
 [{
 	"frames":[{"steal":"$res00"}],
@@ -46,10 +46,10 @@ Here's an example of its usage:
 }]
 ```
 
-This code checks for an activated wire nearby and removes the building when the condition is true.
+这段代码会检查附近是否有激活的导线，并在条件满足时移除建筑。
 
 <sub>
-This page has been adapted from
-[a topic](https://forum.theotown.com/viewtopic.php?t=10492)
-on the official TheoTown forum.
+本页面改编自
+TheoTown官方论坛的
+[这个主题](https://forum.theotown.com/viewtopic.php?t=10492)
 </sub>

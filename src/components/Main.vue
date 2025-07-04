@@ -47,6 +47,11 @@ function capitalizeFirstLetter(string: string) {
   return first_letter.toUpperCase() + string.substring(1)
 }
 
+function getDisplayNameByTag(tag: string) {
+  const draftType = Array.from(Types.getTypes()).find(type => type.tag === tag);
+  return draftType?.displayName || capitalizeFirstLetter(tag);
+}
+
 const toast = useToast();
 
 
@@ -79,8 +84,8 @@ function showWarningToast(summary: string, detail: string, life: number = 10000)
 function addNewDraft() {
     if (selectedDraftType.value === null) {
       showErrorToast(
-          "No draft type specified",
-          "Please specify a draft type before trying to add one."
+          "未指定草案类型",
+          "请先选择草案类型再尝试添加"
       )
     } else {
 
@@ -109,14 +114,14 @@ function exportToJson() {
   // Check that the drafts are defined
   if (plugin.value.drafts.length === 0)
     return showErrorToast(
-        "Cannot export empty JSON",
-        "Make sure you have defined at least one draft before exporting to JSON."
+        "无法导出空JSON",
+        "导出JSON前请确保至少定义了一个草案。"
     )
 
   if (!areDraftsValid())
     return showErrorToast(
-      "Could not export JSON",
-      "Please ensure all draft attributes are correct."
+      "无法导出JSON",
+      "请确保所有草案属性正确。"
     )
 
   FileSaver.saveAs(plugin.value.getJsonBlob(), "code.json")
@@ -125,8 +130,8 @@ function exportToJson() {
 function exportToManifest() {
   if (!plugin.value.isManifestValid())
     return showErrorToast(
-      "Could not export manifest",
-      "Please ensure all manifest attributes are correct."
+      "无法导出清单文件",
+      "请确保所有清单属性正确。"
     )
 
   FileSaver.saveAs(plugin.value.getManifestBlob(), "plugin.manifest")
@@ -146,14 +151,14 @@ function createZipArchive(): JSZip {
 function exportToZip() {
   if (plugin.value.drafts.length === 0)
     return showErrorToast(
-        "Cannot export an empty plugin",
-        "Make sure you have defined at least one draft before exporting as archive."
+        "无法导出空插件",
+        "导出为归档文件前请确保至少定义了一个草案。"
     )
 
 
   if (!areDraftsValid() || !plugin.value.isManifestValid()) return showErrorToast(
-      "Could not export archive",
-      "Please ensure all plugin attributes are correct."
+      "无法导出归档文件",
+      "请确保所有插件属性正确。"
   );
 
   createZipArchive().generateAsync({ type: 'blob' }).then(function (content) {
@@ -169,8 +174,8 @@ async function loadFromZip(event) {
 
   if (event.files.length == 0) {
     return showErrorToast(
-        "Project loading failed",
-        "Cannot load from a non zip file."
+        "项目加载失败",
+        "无法从非zip文件加载"
     );
   }
 
@@ -184,8 +189,8 @@ async function loadFromZip(event) {
 
   if (codeFile === null || manifestFile === null) {
     return showErrorToast(
-        "Project loading failed",
-        "Selected zip is not a PCA project."
+        "项目加载失败",
+        "所选zip不是PCA项目"
     );
   }
 
@@ -208,8 +213,8 @@ async function loadFromZip(event) {
 
   if (!Array.isArray(jsonObject)) {
     return showErrorToast(
-        "Project loading failed",
-        "Error loading code: not array"
+        "项目加载失败",
+        "代码加载错误：不是数组格式"
     );
   }
 
@@ -217,8 +222,8 @@ async function loadFromZip(event) {
     const draft = new DraftFactory().fromJSON(obj, plugin.value);
     if (draft === null) {
       showWarningToast(
-          "Draft loading failed",
-          "Unsupported draft type encountered: " + obj["type"] + " for " + obj["id"]
+          "草案加载失败",
+          "遇到不支持的草案类型: " + obj["type"] + " 对应 " + obj["id"]
       );
     } else {
       plugin.value.addDraft(draft)
@@ -255,7 +260,7 @@ async function loadFromZip(event) {
 }
 
 window.addEventListener('unhandledrejection', function(event) {
-  alert("Error happened while handling promise: " + JSON.stringify(event.reason))
+  alert("处理Promise时发生错误：" + JSON.stringify(event.reason))
   console.log(event.reason)
   //handle error here
   //event.promise contains the promise object
@@ -264,7 +269,7 @@ window.addEventListener('unhandledrejection', function(event) {
 
 
 window.onerror = function (msg, url, line, col, error) {
-  alert("Unexpected error encountered: " + msg)
+  alert("遇到意外错误：" + msg)
   //code to handle or report error goes here
 }
 
@@ -284,13 +289,11 @@ window.onerror = function (msg, url, line, col, error) {
 
           <Collapsable title="Manifest">
             <p>
-              To begin creating your plugin, please create a manifest of the plugin first. Manifest is a file that
-              helps TheoTown to identify and manage your plugin through a graphical interface. Your plugin will also
-              show up under local plugins list and the plugins toolbar.
+              要开始创建插件，请先创建插件的清单文件。清单文件帮助TheoTown通过图形界面识别和管理您的插件。
+              您的插件也会显示在本地插件列表和插件工具栏中。
             </p>
             <p>
-              If you're new to plugin creation, you might want to check out the documentation
-              <a href="https://pca.svetikas.lt/docs/getting-started/writing-a-sample-plugin/"> here</a>.
+              如果您是插件开发新手，可以查看<a href="/docs/docs/getting-started/writing-a-sample-plugin.md">这里的文档</a>。
             </p>
             <AttributeContainer
                 :attribute-owner="plugin.manifest"
@@ -300,11 +303,10 @@ window.onerror = function (msg, url, line, col, error) {
 
 
           <p>
-            Once you've finished writing the manifest, you can begin adding drafts to your plugin.
+            完成清单编写后，您可以开始为插件添加草案。
           </p>
           <p>
-            Draft is a general term used to refer to a plugin object inside the game. What the draft can do
-            is defined by the draft type.
+            草案是指游戏中的插件对象，其功能由草案类型决定。
           </p>
 
           <!-- Type selector for new draft object -->
@@ -314,11 +316,11 @@ window.onerror = function (msg, url, line, col, error) {
               v-model="selectedDraftType"
               :options="types"
               filter  
-              placeholder="Select draft type"
+              placeholder="选择草案类型"
             >
               <template #value="slotProps">
                 <div v-if="slotProps.value" class="flex items-center">
-                  <div>{{ capitalizeFirstLetter(slotProps.value) }}</div>
+                  <div>{{ getDisplayNameByTag(slotProps.value) }}</div>
                 </div>
                 <span v-else>
                     {{ slotProps.placeholder }}
@@ -326,11 +328,11 @@ window.onerror = function (msg, url, line, col, error) {
               </template>
               <template #option="slotProps">
                 <div class="flex items-center">
-                  <div>{{ capitalizeFirstLetter(slotProps.option) }}</div>
+                  <div>{{ getDisplayNameByTag(slotProps.option) }}</div>
                 </div>
               </template>
             </Select>
-            <Button @click="addNewDraft">Add</Button>
+            <Button @click="addNewDraft">添加</Button>
           </div>
         </div>
 
@@ -338,7 +340,7 @@ window.onerror = function (msg, url, line, col, error) {
           <!--:title="`${(props.index + 1)}. ${props.draftObject.id.value ? props.draftObject.id.value : 'No ID specified'} (type: ${ props.draftObject.type.tag})`"-->
           <Collapsable
               v-for="(obj, index) in plugin.drafts"
-              :title="`${(index + 1)}. ${obj.id.value ? obj.id.value : 'No ID specified'} (type: ${obj.type.tag})`"
+              :title="`${(index + 1)}. ${obj.id.value ? obj.id.value : '未指定ID'} (类型: ${obj.type.tag})`"
               :removable="true"
               @pop="plugin.removeDraftAtIndex(index)"
               class="marginify"
@@ -352,18 +354,14 @@ window.onerror = function (msg, url, line, col, error) {
 
         <div class="controls">
           <p>
-            Now you can export your plugin to be loaded into the game.
-            It is recommended to export the zip archive, as it provides you with a single
-            file that you can just put into the game and it just works. It also acts as PCA
-            project file, allowing you to restore your project from file.
-            If you want to protect the contents
-            of the plugin by encryption, read
-            <a href="https://pca.svetikas.lt/docs/guides/plugin-encryption/">here</a>
-            on how to do so.
+            现在您可以导出插件以便加载到游戏中。
+            推荐导出为zip压缩包，这样您只需将单个文件放入游戏即可使用。
+            它也可以作为PCA项目文件，让您可以从文件恢复项目。
+            如需通过加密保护插件内容，请阅读
+            <a href="https://pca.svetikas.lt/docs/guides/plugin-encryption/">这里的指南</a>。
           </p>
           <p>
-            You can also export the generated JSON and manifest files separately,
-            if you prefer to do that instead.
+            您也可以选择单独导出生成的JSON和清单文件。
           </p>
 
           <input
@@ -373,19 +371,19 @@ window.onerror = function (msg, url, line, col, error) {
               style="display:none;"
               @change="loadFromZip($event.target)"
           />
-          <Button @click="zipFileUpload.click()">Load from zip</Button>
-          <Button @click="exportToZip()">Export as a zip archive</Button>
-          <Button @click="exportToJson()">Export JSON file</Button>
-          <Button @click="exportToManifest()">Export plugin.manifest file</Button>
+          <Button @click="zipFileUpload.click()">从zip加载</Button>
+          <Button @click="exportToZip()">导出为zip压缩包</Button>
+          <Button @click="exportToJson()">导出JSON文件</Button>
+          <Button @click="exportToManifest()">导出plugin.manifest文件</Button>
         </div>
 
 
       </div>
 
       <div v-if="showPreviewPanel" class="preview-panel">
-        <h2>Files:</h2>
+        <h2>文件：</h2>
         <pre>{{ plugin.fileMapping }}</pre>
-        <h2>Live preview of the generated JSON:</h2>
+        <h2>生成的JSON实时预览：</h2>
         <h3>plugin.manifest</h3>
         <pre>{{ plugin.manifest }}</pre>
         <h3>code.json</h3>
